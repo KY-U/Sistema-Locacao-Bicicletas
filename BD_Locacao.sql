@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS SistemaLocacao
+CREATE DATABASE IF NOT EXISTS SistemaLocacao;
 
-USE SistemaLocacao
+USE SistemaLocacao;
 
 -- Tabela de Clientes
 CREATE TABLE IF NOT EXISTS Clientes (
