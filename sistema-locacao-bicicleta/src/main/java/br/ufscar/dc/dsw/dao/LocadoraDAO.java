@@ -1,7 +1,6 @@
 package br.ufscar.dc.dsw.dao;
 
 import br.ufscar.dc.dsw.model.Locadora;
-import br.ufscar.dc.dsw.conexao.Conexao;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
