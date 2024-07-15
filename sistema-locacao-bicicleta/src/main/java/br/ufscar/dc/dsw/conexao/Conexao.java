@@ -1,4 +1,4 @@
-package main.java.br.ufscar.dc.dsw.conexao;
+package br.ufscar.dc.dsw.conexao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

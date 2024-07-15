@@ -1,7 +1,7 @@
-package main.java.br.ufscar.dc.dsw.controller;
+package br.ufscar.dc.dsw.controller;
 
-//import main.java.br.ufscar.dc.dsw.dao.ClienteDAO;
-import main.java.br.ufscar.dc.dsw.model.Cliente;
+import br.ufscar.dc.dsw.dao.ClienteDAO;
+import br.ufscar.dc.dsw.model.Cliente;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,10 +22,6 @@ public class ClienteController extends HttpServlet{
         dao = new ClienteDAO();
     }
 
-    @Override
-    public void init() {
-        dao = new ClienteDAO();
-    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

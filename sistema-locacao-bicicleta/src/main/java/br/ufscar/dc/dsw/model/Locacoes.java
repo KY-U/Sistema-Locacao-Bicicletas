@@ -1,4 +1,4 @@
-package main.java.br.ufscar.dc.dsw.model;
+package br.ufscar.dc.dsw.model;
 
 public class Locacoes {
     private String cpf_cliente;
