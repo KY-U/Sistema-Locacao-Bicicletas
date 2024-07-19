@@ -1,4 +1,4 @@
-package br.ufscar.dc.dsw.dao;
+package main.java.br.ufscar.dc.dsw.dao;
 
 import br.ufscar.dc.dsw.model.Cliente;
 
@@ -22,7 +22,7 @@ public class ClienteDAO {
             stmt.setString(6, cliente.getSexo());
             stmt.setString(7, cliente.getDataNascimento());
 
-            stmt.execute();
+            stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
