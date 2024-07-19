@@ -4,8 +4,8 @@ public class Administrador {
     private String email;
     private String senha;
 
-<<<<<<< HEAD
-    public Administrador (String email, String senha) {
+
+    public Administrador(String email, String senha) {
         this.email = email;
         this.senha = senha;
     }
@@ -27,7 +27,6 @@ public class Administrador {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-=======
->>>>>>> caaf6b95d229cd837a334a62d4c8f29a1a96a026
+
 }
 
