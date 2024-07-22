@@ -59,11 +59,13 @@ public class ClienteController extends HttpServlet {
                     updateCliente(request, response);
                     break;
                 case "/list":
-                default:
                     listClientes(request, response);
                     break;
                 case "/dashboard":
                     showDashboard(request, response);
+                    break;
+                default:
+                    listClientes(request, response);
                     break;
             }
         } catch (Exception e) {

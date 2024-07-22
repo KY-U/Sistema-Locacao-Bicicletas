@@ -21,8 +21,14 @@
                 <td>${cliente.cpf}</td>
                 <td>${cliente.nome}</td>
                 <td>
-                    <a href="clientes/edit?email=${cliente.email}">Editar</a>
-                    <a href="clientes/delete?email=${cliente.email}">Excluir</a>
+                    <form action="clientes/edit" method="get" style="display:inline;">
+                        <input type="hidden" name="email" value="${cliente.email}">
+                        <input type="submit" value="Editar">
+                    </form>
+                    <form action="clientes/delete" method="get" style="display:inline;">
+                        <input type="hidden" name="email" value="${cliente.email}">
+                        <input type="submit" value="Excluir">
+                    </form>
                 </td>
             </tr>
         </c:forEach>
