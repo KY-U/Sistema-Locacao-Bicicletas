@@ -12,41 +12,6 @@
                 Cadastrar Locadora
             </c:otherwise>
         </c:choose></title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        form {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
 </head>
 <body>
 
@@ -61,12 +26,12 @@
 
 <form action="<c:choose>
         <c:when test="${not empty locadora}">
-            ${pageContext.request.contextPath}/locadora/update
+            ${pageContext.request.contextPath}/locadoras/update
         </c:when>
         <c:otherwise>
-            ${pageContext.request.contextPath}/locadora/create
+            ${pageContext.request.contextPath}/locadoras/insert
         </c:otherwise>
-    </c:choose>" method="post">
+    </c:choose>" method="get">
     <input type="hidden" name="email" value="${not empty locadora ? locadora.email : ''}"/>
 
     <label for="email">Email:</label>
