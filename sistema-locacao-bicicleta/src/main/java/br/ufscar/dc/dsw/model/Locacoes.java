@@ -1,22 +1,25 @@
-package main.java.br.ufscar.dc.dsw.model;
+package br.ufscar.dc.dsw.model;
+import sun.awt.TimedWindowEvent;
+
 import java.sql.Date;
+import java.sql.Timestamp;
 
 
 public class Locacoes {
     private int id;
     private String cpf_cliente;
     private String cnpj_locadora;
-    private Date data_inicio;
+    private Timestamp data_inicio;
 
     public Locacoes() {}
 
-    public Locacoes (String cpf_cliente, String cnpj_locadora, Date data_inicio) {
+    public Locacoes (String cpf_cliente, String cnpj_locadora, Timestamp data_inicio) {
         this.cpf_cliente = cpf_cliente;
         this.cnpj_locadora = cnpj_locadora;
         this.data_inicio = data_inicio;
     }
 
-    public Locacoes (int id, String cpf_cliente, String cnpj_locadora, Date data_inicio) {
+    public Locacoes (int id, String cpf_cliente, String cnpj_locadora, Timestamp data_inicio) {
         this.cpf_cliente = cpf_cliente;
         this.cnpj_locadora = cnpj_locadora;
         this.data_inicio = data_inicio;
@@ -31,7 +34,7 @@ public class Locacoes {
         return cnpj_locadora;
     }
 
-    public Date getDataInicio() {
+    public Timestamp getDataInicio() {
         return data_inicio;
     }
 
@@ -50,7 +53,7 @@ public class Locacoes {
         this.cnpj_locadora = cnpj_locadora;
     }
 
-    public void setDataInicio(Date data_inicio) {
+    public void setDataInicio(Timestamp data_inicio) {
         this.data_inicio = data_inicio;
     }
 

@@ -1,7 +1,7 @@
-package main.java.br.ufscar.dc.dsw.dao;
+package br.ufscar.dc.dsw.dao;
 
-import main.java.br.ufscar.dc.dsw.model.Cliente;
-
+import br.ufscar.dc.dsw.model.Cliente;
+import br.ufscar.dc.dsw.dao.Conexao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,16 +93,44 @@ public class ClienteDAO {
         }
     }
 
-    public void deleteUsuario (Cliente cliente) throws SQLException {
+    public void deleteUsuario(String email) throws SQLException {
         String sql = "DELETE FROM Clientes WHERE email = ?";
 
         try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
-            stmt.setString(1, cliente.getEmail());
-
-            stmt.execute();
-            stmt.close();
+            stmt.setString(1, email);
+            stmt.executeUpdate(); // Use executeUpdate para operações de escrita
         } catch (SQLException e) {
             e.printStackTrace();
+            throw e; // Propaga a exceção para que possa ser tratada pelo chamador
         }
+    }
+
+    public Cliente getCliente(String email) throws SQLException {
+        Cliente cliente = null;
+        String sql = "SELECT * FROM Clientes WHERE email = ?";
+
+        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+            stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                cliente = new Cliente();
+                cliente.setEmail(rs.getString("email"));
+                cliente.setSenha(rs.getString("senha"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setSexo(rs.getString("sexo"));
+                cliente.setDataNascimento(rs.getDate("data_nascimento"));
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // Propague a exceção para tratamento posterior
+        }
+
+        return cliente;
     }
 }

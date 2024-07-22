@@ -1,10 +1,9 @@
-package main.java.br.ufscar.dc.dsw.controller;
+package br.ufscar.dc.dsw.controller;
 
-
-import main.java.br.ufscar.dc.dsw.dao.ClienteDAO;
-import main.java.br.ufscar.dc.dsw.dao.AdminDAO;
-import main.java.br.ufscar.dc.dsw.model.Cliente;
-import main.java.br.ufscar.dc.dsw.model.Administrador;
+import br.ufscar.dc.dsw.dao.ClienteDAO;
+import br.ufscar.dc.dsw.dao.AdminDAO;
+import br.ufscar.dc.dsw.model.Cliente;
+import br.ufscar.dc.dsw.model.Administrador;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
@@ -31,21 +31,26 @@ public class LoginController extends HttpServlet {
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
 
-        Cliente cliente = clienteDAO.get(email);
-        Administrador administrador = administradorDAO.get(email);
+        try {
+            Cliente cliente = clienteDAO.getCliente(email);
+            Administrador administrador = administradorDAO.getAdmin(email);
 
-        if (cliente != null && cliente.getSenha().equals(senha)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", cliente);
-            session.setAttribute("tipoUsuario", "cliente");
-            response.sendRedirect("clientes/list");
-        } else if (administrador != null && administrador.getSenha().equals(senha)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", administrador);
-            session.setAttribute("tipoUsuario", "admin");
-            response.sendRedirect("admin/dashboard");
-        } else {
-            response.sendRedirect("login.jsp");
+            if (cliente != null && cliente.getSenha().equals(senha)) {
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", cliente);
+                session.setAttribute("tipoUsuario", "cliente");
+                response.sendRedirect("clientes/list");
+            } else if (administrador != null && administrador.getSenha().equals(senha)) {
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", administrador);
+                session.setAttribute("tipoUsuario", "admin");
+                response.sendRedirect("admin/dashboard");
+            } else {
+                response.sendRedirect("login.jsp");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ServletException("Erro no acesso ao banco de dados.", e);
         }
     }
 }

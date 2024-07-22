@@ -5,3 +5,44 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 </web-app>
+
+<!-- Isso é necessário? fica ai o questionamento
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <servlet>
+        <servlet-name>ClienteController</servlet-name>
+        <servlet-class>br.ufscar.dc.dsw.controller.ClienteController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ClienteController</servlet-name>
+        <url-pattern>/clientes/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LocadoraController</servlet-name>
+        <servlet-class>br.ufscar.dc.dsw.controller.LocadoraController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LocadoraController</servlet-name>
+        <url-pattern>/locadoras/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LocacaoController</servlet-name>
+        <servlet-class>br.ufscar.dc.dsw.controller.LocacaoController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LocacaoController</servlet-name>
+        <url-pattern>/locacoes/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>
+-->

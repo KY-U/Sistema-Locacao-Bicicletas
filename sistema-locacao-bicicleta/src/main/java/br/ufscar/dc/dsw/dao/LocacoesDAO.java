@@ -1,8 +1,9 @@
-package main.java.br.ufscar.dc.dsw.dao;
+package br.ufscar.dc.dsw.dao;
 
-import main.java.br.ufscar.dc.dsw.model.Locacoes;
+import br.ufscar.dc.dsw.model.Locacoes;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
@@ -16,7 +17,7 @@ public class LocacoesDAO {
         try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
             stmt.setString(1, locacoes.getCpfCliente());
             stmt.setString(2, locacoes.getCnpjLocadora());
-            stmt.setDate(3, locacoes.getDataInicio());
+            stmt.setTimestamp(3, locacoes.getDataInicio());
 
             stmt.execute();
             stmt.close();
@@ -35,7 +36,7 @@ public class LocacoesDAO {
             rs.next();
             locacoes.setCpfCliente(rs.getString("cpf_cliente"));
             locacoes.setCnpjLocadora(rs.getString("cnpj_locadora"));
-            locacoes.setDataInicio(rs.getDate("data_horario"));
+            locacoes.setDataInicio(rs.getTimestamp("data_horario"));
 
             stmt.close();
         } catch (SQLException e) {
@@ -54,7 +55,7 @@ public class LocacoesDAO {
                 Locacoes locacao = new Locacoes();
                 locacao.setCpfCliente(rs.getString("cpf_cliente"));
                 locacao.setCnpjLocadora(rs.getString("cnpj_locadora"));
-                locacao.setDataInicio(rs.getDate("data_horario"));
+                locacao.setDataInicio(rs.getTimestamp("data_horario"));
 
                 locacoes.add(locacao);
             }
@@ -69,7 +70,7 @@ public class LocacoesDAO {
         String sql = "UPDATE Locacoes SET data_horario = ? WHERE cpf_cliente = ? AND cnpj_locadora = ?";
 
         try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
-            stmt.setDate(1, Locacoes.getDataInicio());
+            stmt.setTimestamp(1, Locacoes.getDataInicio());
             stmt.setString(2, Locacoes.getCpfCliente());
             stmt.setString(3, Locacoes.getCnpjLocadora());
 
@@ -80,18 +81,58 @@ public class LocacoesDAO {
         }
     }
 
-    public void deleteLocacoes (Locacoes Locacoes) throws SQLException {
+    public void deleteLocacoes(String cpfCliente, String cnpjLocadora) throws SQLException {
         String sql = "DELETE FROM Locacoes WHERE cpf_cliente = ? AND cnpj_locadora = ?";
 
         try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
-            stmt.setString(1, Locacoes.getCpfCliente());
-            stmt.setString(1, Locacoes.getCnpjLocadora());
+            stmt.setString(1, cpfCliente);
+            stmt.setString(2, cnpjLocadora);
 
-            stmt.execute();
-            stmt.close();
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    public Locacoes getLocacaoById(int id) throws SQLException {
+        Locacoes locacao = null;
+        String sql = "SELECT * FROM Locacoes WHERE id = ?";
+
+        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                locacao = new Locacoes();
+                locacao.setId(rs.getInt("id"));
+                locacao.setCpfCliente(rs.getString("cpf_cliente"));  // Ajuste conforme a estrutura real
+                locacao.setCnpjLocadora(rs.getString("cnpj_locadora")); // Ajuste conforme a estrutura real
+                locacao.setDataInicio(rs.getTimestamp("data_horario"));
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // Propague a exceção para tratamento posterior
+        }
+
+        return locacao;
+    }
+
+    public void editLocacoes(int id, String cpfCliente, String cnpjLocadora, Timestamp dataHorario) throws SQLException {
+        String sql = "UPDATE Locacoes SET cpf_cliente = ?, cnpj_locadora = ?, data_horario = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+            stmt.setString(1, cpfCliente);
+            stmt.setString(2, cnpjLocadora);
+            stmt.setTimestamp(3, dataHorario);
+            stmt.setInt(4, id);
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

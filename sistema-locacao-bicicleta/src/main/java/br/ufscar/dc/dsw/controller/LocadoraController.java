@@ -1,8 +1,11 @@
-package main.java.br.ufscar.dc.dsw.controller;
+package br.ufscar.dc.dsw.controller;
 
-import main.java.br.ufscar.dc.dsw.dao.LocadoraDAO;
-import main.java.br.ufscar.dc.dsw.model.Locacoes;
-import main.java.br.ufscar.dc.dsw.model.Locadora;
+//dao
+import br.ufscar.dc.dsw.dao.LocadoraDAO;
+
+//model
+import br.ufscar.dc.dsw.model.Locacoes;
+import br.ufscar.dc.dsw.model.Locadora;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

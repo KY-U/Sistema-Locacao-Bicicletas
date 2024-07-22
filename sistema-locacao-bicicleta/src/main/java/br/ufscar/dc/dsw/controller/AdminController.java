@@ -1,13 +1,16 @@
-package main.java.br.ufscar.dc.dsw.controller;
+package br.ufscar.dc.dsw.controller;
 
+//dao
+import br.ufscar.dc.dsw.dao.AdminDAO;
+import br.ufscar.dc.dsw.dao.ClienteDAO;
+import br.ufscar.dc.dsw.dao.LocadoraDAO;
+import br.ufscar.dc.dsw.model.Administrador;
 
-import main.java.br.ufscar.dc.dsw.dao.AdminDAO;
-import main.java.br.ufscar.dc.dsw.model.Administrador;
-import main.java.br.ufscar.dc.dsw.dao.ClienteDAO;
-import main.java.br.ufscar.dc.dsw.dao.LocadoraDAO;
-import main.java.br.ufscar.dc.dsw.model.Cliente;
-import main.java.br.ufscar.dc.dsw.model.Locadora;
+//model
+import br.ufscar.dc.dsw.model.Cliente;
+import br.ufscar.dc.dsw.model.Locadora;
 
+//servlet
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +61,6 @@ public class AdminController extends HttpServlet {
                 case "/locadoras":
                     listLocadoras(request, response);
                     break;
-                // Outras ações do administrador...
                 default:
                     response.sendRedirect("index.jsp");
                     break;
@@ -79,7 +81,7 @@ public class AdminController extends HttpServlet {
     }
 
     private void listLocadoras(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        List<Locadora> listaLocadoras = locadoraDAO.listaLocadora();
+        List<Locadora> listaLocadoras = LocadoraDAO.listaLocadora();
         request.setAttribute("listaLocadoras", listaLocadoras);
         request.getRequestDispatcher("/admin-locadoras-list.jsp").forward(request, response);
     }

@@ -1,7 +1,7 @@
-package main.java.br.ufscar.dc.dsw.dao;
+package br.ufscar.dc.dsw.dao;
 
-import main.java.br.ufscar.dc.dsw.model.Administrador;
-
+import br.ufscar.dc.dsw.model.Administrador;
+import br.ufscar.dc.dsw.dao.Conexao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +24,28 @@ public class AdminDAO {
         }
     }
 
-    public void searchAdmin(Administrador admin) throws SQLException {
+    public Administrador getAdmin(String email) throws SQLException {
+        Administrador admin = null;
         String sql = "SELECT * FROM Administradores WHERE email = ?";
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
-            stmt.setString(1, admin.getEmail());
-            
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            admin.setSenha(rs.getString("senha"));
 
-            stmt.close();
+        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+            stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                admin = new Administrador();
+                admin.setEmail(rs.getString("email"));
+                admin.setSenha(rs.getString("senha"));
+            }
+
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw e; // Propague a exceção para tratamento posterior
         }
+
+        return admin;
     }
 
     public List<Administrador> listaAdmin() throws SQLException {

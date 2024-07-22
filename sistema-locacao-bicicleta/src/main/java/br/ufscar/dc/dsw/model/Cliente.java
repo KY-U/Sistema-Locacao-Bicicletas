@@ -1,4 +1,4 @@
-package main.java.br.ufscar.dc.dsw.model;
+package br.ufscar.dc.dsw.model;
 import java.sql.Date;
 
 public class Cliente {
