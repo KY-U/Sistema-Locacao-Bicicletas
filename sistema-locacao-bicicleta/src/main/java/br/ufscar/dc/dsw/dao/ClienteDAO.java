@@ -84,22 +84,18 @@ public class ClienteDAO {
         return clientes;
     }
 
-    public void updateUsuario (Cliente cliente) throws SQLException {
-        String sql = "UPDATE Clientes SET senha = ?, cpf = ?, nome = ?, telefone = ?, sexo = ?, data_nascimento = ? WHERE email = ?";
-
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
-            stmt.setString(1, cliente.getSenha());
-            stmt.setString(2, cliente.getCpf());
-            stmt.setString(3, cliente.getNome());
-            stmt.setString(4, cliente.getTelefone());
-            stmt.setString(5, cliente.getSexo());
-            stmt.setDate(6, cliente.getDataNascimento());
-            stmt.setString(7, cliente.getEmail());
-
-            stmt.executeUpdate();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void updateCliente(String emailOriginal, Cliente cliente) throws SQLException {
+        String sql = "UPDATE clientes SET email = ?, senha = ?, cpf = ?, nome = ?, telefone = ?, sexo = ?, dataNascimento = ? WHERE email = ?";
+        try (PreparedStatement statement = Conexao.getConexao().prepareStatement(sql)) {
+            statement.setString(1, cliente.getEmail());
+            statement.setString(2, cliente.getSenha());
+            statement.setString(3, cliente.getCpf());
+            statement.setString(4, cliente.getNome());
+            statement.setString(5, cliente.getTelefone());
+            statement.setString(6, cliente.getSexo());
+            statement.setDate(7, cliente.getDataNascimento());
+            statement.setString(8, emailOriginal);
+            statement.executeUpdate();
         }
     }
 
