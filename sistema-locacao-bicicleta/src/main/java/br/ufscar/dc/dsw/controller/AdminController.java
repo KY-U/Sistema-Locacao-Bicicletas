@@ -72,8 +72,8 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/admin-dashboard.jsp").forward(request, response);
     }
 
-    private void listClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Cliente> listaClientes = clienteDAO.listausuario();
+    private void listClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        List<Cliente> listaClientes = clienteDAO.listaUsuario();
         request.setAttribute("listaClientes", listaClientes);
         request.getRequestDispatcher("/admin-clientes-list.jsp").forward(request, response);
     }
