@@ -21,7 +21,7 @@ import java.util.List;
 
 import static java.sql.DriverManager.getConnection;
 
-@WebServlet("/locadoras/*")
+@WebServlet("admin/locadoras/*")
 public class LocadoraController extends HttpServlet {
 
     private LocadoraDAO locadoraDAO;

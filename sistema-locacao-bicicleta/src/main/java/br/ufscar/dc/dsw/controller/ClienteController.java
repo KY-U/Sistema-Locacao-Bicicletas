@@ -62,6 +62,9 @@ public class ClienteController extends HttpServlet {
                 default:
                     listClientes(request, response);
                     break;
+                case "/dashboard":
+                    showDashboard(request, response);
+                    break;
             }
         } catch (Exception e) {
             throw new ServletException(e);
@@ -118,5 +121,25 @@ public class ClienteController extends HttpServlet {
         String email = request.getParameter("email");
         clienteDAO.deleteUsuario(email);
         response.sendRedirect("list");
+    }
+
+    private void showDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("userEmail");
+
+        if (email == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        // Carregar informações do cliente e locações
+        Cliente cliente = clienteDAO.searchUsuario(email);
+        request.setAttribute("cliente", cliente);
+
+        // Locações do cliente podem ser obtidas de um DAO específico para locações
+        // Exemplo: List<Locacao> locacoes = locacaoDAO.listLocacoesByClient(email);
+        // request.setAttribute("locacoes", locacoes);
+
+        request.getRequestDispatcher("/user-dashboard.jsp").forward(request, response);
     }
 }

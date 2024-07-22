@@ -30,24 +30,34 @@ public class ClienteDAO {
         }
     }
 
-    public void searchUsuario(Cliente cliente) throws SQLException {
+    public Cliente searchUsuario(String email) throws SQLException {
         String sql = "SELECT * FROM Clientes WHERE email = ?";
+        Cliente cliente = null; // Inicializa o cliente como null
+
         try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
-            stmt.setString(1, cliente.getEmail());
-            
+            stmt.setString(1, email);
+
             ResultSet rs = stmt.executeQuery();
-            rs.next();
-            cliente.setSenha(rs.getString("senha"));
-            cliente.setCpf(rs.getString("cpf"));
-            cliente.setNome(rs.getString("nome"));
-            cliente.setTelefone(rs.getString("telefone"));
-            cliente.setSexo(rs.getString("sexo"));
-            cliente.setDataNascimento(rs.getDate("data_nascimento"));
+
+            if (rs.next()) {
+                cliente = new Cliente();
+                cliente.setEmail(rs.getString("email"));
+                cliente.setSenha(rs.getString("senha"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setSexo(rs.getString("sexo"));
+                cliente.setDataNascimento(rs.getDate("data_nascimento"));
+            }
 
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            // Lançar a exceção para que o chamador possa tratar o erro
+            throw e;
         }
+
+        return cliente;
     }
 
     public List<Cliente> listaUsuario() throws SQLException {
