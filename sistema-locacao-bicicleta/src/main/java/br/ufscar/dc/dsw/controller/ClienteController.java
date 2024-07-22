@@ -16,7 +16,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
-@WebServlet("/clientes/*")
+@WebServlet("/clientes")
 public class ClienteController extends HttpServlet {
 
     private ClienteDAO clienteDAO;

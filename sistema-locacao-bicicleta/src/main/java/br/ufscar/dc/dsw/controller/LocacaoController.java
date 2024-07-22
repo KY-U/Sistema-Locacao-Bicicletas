@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/locacoes/*")
+@WebServlet(urlPatterns = "/locacoes")
 public class LocacaoController extends HttpServlet {
 
     private LocacoesDAO dao;
