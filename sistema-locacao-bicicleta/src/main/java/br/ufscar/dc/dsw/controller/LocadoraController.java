@@ -37,7 +37,7 @@ public class LocadoraController extends HttpServlet {
                     showNewForm(request, response);
                     break;
                 case "/insert":
-                    insertLocadora(request, response);
+                    cadastrarLocadora(request, response);
                     break;
                 case "/delete":
                     deleteLocadora(request, response);
@@ -69,14 +69,14 @@ public class LocadoraController extends HttpServlet {
         request.getRequestDispatcher("/locadora-form.jsp").forward(request, response);
     }
 
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String email = request.getParameter("email");
         Locadora locadora = locadoraDAO.searchLocadora(email);
         request.setAttribute("locadora", locadora);
         request.getRequestDispatcher("/locadora-form.jsp").forward(request, response);
     }
 
-    private void insertLocadora(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void cadastrarLocadora(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
         String cnpj = request.getParameter("cnpj");
@@ -84,11 +84,11 @@ public class LocadoraController extends HttpServlet {
         String cidade = request.getParameter("cidade");
 
         Locadora locadora = new Locadora(email, senha, cnpj, nome, cidade);
-        locadoraDAO.insert(locadora);
+        locadoraDAO.cadastrarLocadora(locadora);
         response.sendRedirect("list");
     }
 
-    private void updateLocadora(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void updateLocadora(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
         String cnpj = request.getParameter("cnpj");
@@ -96,17 +96,20 @@ public class LocadoraController extends HttpServlet {
         String cidade = request.getParameter("cidade");
 
         Locadora locadora = new Locadora(email, senha, cnpj, nome, cidade);
-        locadoraDAO.update(locadora);
+        locadoraDAO.updateLocadora(locadora);
         response.sendRedirect("list");
     }
 
-    private void deleteLocadora(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String clienteEmail = request.getParameter("clienteEmail");
-        String locadoraCnpj = request.getParameter("locadoraCnpj");
-        Timestamp dataHora = Timestamp.valueOf(request.getParameter("dataHora"));
+    private void deleteLocadora(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        String email = request.getParameter("email");
+        Locadora locadora = locadoraDAO.searchLocadora(email);
+        try {
+            locadoraDAO.deleteLocadora(locadora); // Passando o email para deletar a locadora
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Trate o erro conforme necessário
+        }
 
-        Locacoes locacao = new Locacoes(clienteEmail, locadoraCnpj, dataHora);
-        dao.delete(locacao); // Passando o objeto Locacao com os dados para deletar
         response.sendRedirect("list"); // Redireciona para a lista após exclusão
     }
 }

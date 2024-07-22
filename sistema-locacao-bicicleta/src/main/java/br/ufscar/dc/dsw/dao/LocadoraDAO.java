@@ -27,22 +27,30 @@ public class LocadoraDAO {
         }
     }
 
-    public void searchLocadora(Locadora locadora) throws SQLException {
+    public Locadora searchLocadora(String email) throws SQLException {
+        Locadora locadora = null;
         String sql = "SELECT * FROM Locadoras WHERE email = ?";
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
-            stmt.setString(1, locadora.getEmail());
-            
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            locadora.setSenha(rs.getString("senha"));
-            locadora.setCnpj(rs.getString("cnpj"));
-            locadora.setNome(rs.getString("nome"));
-            locadora.setCidade(rs.getString("cidade"));
 
-            stmt.close();
+        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+            stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                locadora = new Locadora();
+                locadora.setEmail(rs.getString("email"));
+                locadora.setSenha(rs.getString("senha"));
+                locadora.setCnpj(rs.getString("cnpj"));
+                locadora.setNome(rs.getString("nome"));
+                locadora.setCidade(rs.getString("cidade"));
+            }
+
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return locadora;
     }
 
     public static List<Locadora> listaLocadora() throws SQLException {
