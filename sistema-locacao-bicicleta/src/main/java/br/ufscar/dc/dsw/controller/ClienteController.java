@@ -3,29 +3,40 @@ package br.ufscar.dc.dsw.controller;
 import br.ufscar.dc.dsw.dao.ClienteDAO;
 import br.ufscar.dc.dsw.model.Cliente;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/clientes/*")
-public class ClienteController extends HttpServlet{
-    private static final long serialVersionUID = 1L;
-    private ClienteDAO dao;
+public class ClienteController extends HttpServlet {
+
+    private ClienteDAO clienteDAO;
 
     @Override
     public void init() {
-        dao = new ClienteDAO();
+        clienteDAO = new ClienteDAO();
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+
+        if (!"admin".equals(tipoUsuario)) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
         String action = request.getPathInfo();
+        if (action == null) {
+            action = "/";
+        }
+
         try {
             switch (action) {
                 case "/new":
@@ -43,6 +54,7 @@ public class ClienteController extends HttpServlet{
                 case "/update":
                     updateCliente(request, response);
                     break;
+                case "/list":
                 default:
                     listClientes(request, response);
                     break;
@@ -52,66 +64,55 @@ public class ClienteController extends HttpServlet{
         }
     }
 
-    private void listClientes(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        List<Cliente> listClientes = dao.listAll();
-        request.setAttribute("listClientes", listClientes);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente-list.jsp");
-        dispatcher.forward(request, response);
+    private void listClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Cliente> listaClientes = clienteDAO.getAll();
+        request.setAttribute("listaClientes", listaClientes);
+        request.getRequestDispatcher("/cliente-list.jsp").forward(request, response);
     }
 
-    private void showNewForm(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente-form.jsp");
-        dispatcher.forward(request, response);
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("cliente", new Cliente());
+        request.getRequestDispatcher("/cliente-form.jsp").forward(request, response);
     }
 
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Cliente existingCliente = dao.get(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente-form.jsp");
-        request.setAttribute("cliente", existingCliente);
-        dispatcher.forward(request, response);
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String email = request.getParameter("email");
+        Cliente cliente = clienteDAO.get(email);
+        request.setAttribute("cliente", cliente);
+        request.getRequestDispatcher("/cliente-form.jsp").forward(request, response);
     }
 
-    private void insertCliente(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    private void insertCliente(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
         String cpf = request.getParameter("cpf");
         String nome = request.getParameter("nome");
         String telefone = request.getParameter("telefone");
         String sexo = request.getParameter("sexo");
-        String dataNascimento = request.getParameter("dataNascimento");
+        Date dataNascimento = Date.valueOf(request.getParameter("dataNascimento"));
 
-        Cliente novoCliente = new Cliente(email, senha, cpf, nome, telefone, sexo, dataNascimento);
-        dao.insert(novoCliente);
+        Cliente cliente = new Cliente(email, senha, cpf, nome, telefone, sexo, dataNascimento);
+        clienteDAO.insert(cliente);
         response.sendRedirect("list");
     }
 
-    private void updateCliente(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+    private void updateCliente(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
         String cpf = request.getParameter("cpf");
         String nome = request.getParameter("nome");
         String telefone = request.getParameter("telefone");
         String sexo = request.getParameter("sexo");
-        String dataNascimento = request.getParameter("dataNascimento");
+        Date dataNascimento = Date.valueOf(request.getParameter("dataNascimento"));
 
-        Cliente cliente = new Cliente(id, email, senha, cpf, nome, telefone, sexo, dataNascimento);
-        dao.update(cliente);
+        Cliente cliente = new Cliente(email, senha, cpf, nome, telefone, sexo, dataNascimento);
+        clienteDAO.update(cliente);
         response.sendRedirect("list");
     }
 
-    private void deleteCliente(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Cliente cliente = new Cliente(id);
-        dao.delete(cliente);
+    private void deleteCliente(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String email = request.getParameter("email");
+        clienteDAO.delete(email);
         response.sendRedirect("list");
     }
-
 }
