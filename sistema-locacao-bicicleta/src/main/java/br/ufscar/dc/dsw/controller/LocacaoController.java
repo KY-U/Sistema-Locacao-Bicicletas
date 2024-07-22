@@ -1,7 +1,7 @@
 package main.java.br.ufscar.dc.dsw.controller;
 
 import main.java.br.ufscar.dc.dsw.dao.LocacoesDAO;
-import br.ufscar.dc.dsw.domain.Locacoes;
+import main.java.br.ufscar.dc.dsw.model.Locacoes;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,16 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/locacoes/*")
 public class LocacaoController extends HttpServlet {
 
-    private LocacaoDAO dao;
+    private LocacoesDAO dao;
 
     @Override
     public void init() {
-        dao = new LocacaoDAO();
+        dao = new LocacoesDAO();
     }
 
     @Override
@@ -51,7 +52,7 @@ public class LocacaoController extends HttpServlet {
         }
     }
 
-    private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         List<Locacao> listaLocacoes = dao.listaLocacoes();
         request.setAttribute("listaLocacoes", listaLocacoes);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/locacao-list.jsp");
@@ -73,22 +74,22 @@ public class LocacaoController extends HttpServlet {
     }
 
     private void insert(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int clienteId = Integer.parseInt(request.getParameter("clienteId"));
-        int locadoraId = Integer.parseInt(request.getParameter("locadoraId"));
+        String clienteEmail = request.getParameter("clienteEmail");
+        String locadoraCnpj = request.getParameter("locadoraCnpj");
         Timestamp dataHora = Timestamp.valueOf(request.getParameter("dataHora"));
 
-        Locacao locacao = new Locacao(clienteId, locadoraId, dataHora);
+        Locacao locacao = new Locacao(clienteEmail, locadoraCnpj, dataHora);
         dao.insert(locacao);
         response.sendRedirect("list");
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        int clienteId = Integer.parseInt(request.getParameter("clienteId"));
-        int locadoraId = Integer.parseInt(request.getParameter("locadoraId"));
+        String clienteEmail = request.getParameter("clienteEmail");
+        String locadoraCnpj = request.getParameter("locadoraCnpj");
         Timestamp dataHora = Timestamp.valueOf(request.getParameter("dataHora"));
 
-        Locacao locacao = new Locacao(id, clienteId, locadoraId, dataHora);
+        Locacao locacao = new Locacao(id, clienteEmail, locadoraCnpj, dataHora);
         dao.update(locacao);
         response.sendRedirect("list");
     }

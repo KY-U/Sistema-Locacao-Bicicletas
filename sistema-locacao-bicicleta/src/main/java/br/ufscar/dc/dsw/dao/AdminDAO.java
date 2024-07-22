@@ -1,6 +1,6 @@
-package br.ufscar.dc.dsw.dao;
+package main.java.br.ufscar.dc.dsw.dao;
 
-import br.ufscar.dc.dsw.model.Administrador;
+import main.java.br.ufscar.dc.dsw.model.Administrador;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

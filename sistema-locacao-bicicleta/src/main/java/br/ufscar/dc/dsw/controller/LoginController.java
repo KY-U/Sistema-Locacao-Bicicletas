@@ -1,10 +1,10 @@
 package main.java.br.ufscar.dc.dsw.controller;
 
 
-import br.ufscar.dc.dsw.dao.ClienteDAO;
-import br.ufscar.dc.dsw.dao.AdministradorDAO;
-import br.ufscar.dc.dsw.model.Cliente;
-import br.ufscar.dc.dsw.model.Administrador;
+import main.java.br.ufscar.dc.dsw.dao.ClienteDAO;
+import main.java.br.ufscar.dc.dsw.dao.AdminDAO;
+import main.java.br.ufscar.dc.dsw.model.Cliente;
+import main.java.br.ufscar.dc.dsw.model.Administrador;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,12 +18,12 @@ import java.io.IOException;
 public class LoginController extends HttpServlet {
 
     private ClienteDAO clienteDAO;
-    private AdministradorDAO administradorDAO;
+    private AdminDAO administradorDAO;
 
     @Override
     public void init() {
         clienteDAO = new ClienteDAO();
-        administradorDAO = new AdministradorDAO();
+        administradorDAO = new AdminDAO();
     }
 
     @Override

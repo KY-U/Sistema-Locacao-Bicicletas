@@ -1,7 +1,7 @@
-package br.ufscar.dc.dsw.controller;
+package main.java.br.ufscar.dc.dsw.controller;
 
-import br.ufscar.dc.dsw.dao.ClienteDAO;
-import br.ufscar.dc.dsw.model.Cliente;
+import main.java.br.ufscar.dc.dsw.dao.ClienteDAO;
+import main.java.br.ufscar.dc.dsw.model.Cliente;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -1,6 +1,6 @@
-package br.ufscar.dc.dsw.dao;
+package main.java.br.ufscar.dc.dsw.dao;
 
-import br.ufscar.dc.dsw.model.Locadora;
+import main.java.br.ufscar.dc.dsw.model.Locadora;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class LocadoraDAO {
         }
     }
 
-    public List<Locadora> listaLocadora() throws SQLException {
+    public static List<Locadora> listaLocadora() throws SQLException {
         List<Locadora> locadoras = new ArrayList<>();
         String sql = "SELECT * FROM Locadoras";
 

@@ -1,4 +1,4 @@
-package br.ufscar.dc.dsw.model;
+package main.java.br.ufscar.dc.dsw.model;
 
 public class Administrador {
     private String email;

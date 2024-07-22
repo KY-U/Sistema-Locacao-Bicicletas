@@ -1,7 +1,8 @@
 package main.java.br.ufscar.dc.dsw.controller;
 
-import br.ufscar.dc.dsw.dao.LocadoraDAO;
-import br.ufscar.dc.dsw.model.Locadora;
+import main.java.br.ufscar.dc.dsw.dao.LocadoraDAO;
+import main.java.br.ufscar.dc.dsw.model.Locacoes;
+import main.java.br.ufscar.dc.dsw.model.Locadora;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 @WebServlet("/locadoras/*")
@@ -69,7 +71,7 @@ public class LocadoraController extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
-        Locadora locadora = locadoraDAO.get(email);
+        Locadora locadora = locadoraDAO.searchLocadora(email);
         request.setAttribute("locadora", locadora);
         request.getRequestDispatcher("/locadora-form.jsp").forward(request, response);
     }
@@ -99,8 +101,12 @@ public class LocadoraController extends HttpServlet {
     }
 
     private void deleteLocadora(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String email = request.getParameter("email");
-        locadoraDAO.delete(email);
-        response.sendRedirect("list");
+        String clienteEmail = request.getParameter("clienteEmail");
+        String locadoraCnpj = request.getParameter("locadoraCnpj");
+        Timestamp dataHora = Timestamp.valueOf(request.getParameter("dataHora"));
+
+        Locacoes locacao = new Locacoes(clienteEmail, locadoraCnpj, dataHora);
+        dao.delete(locacao); // Passando o objeto Locacao com os dados para deletar
+        response.sendRedirect("list"); // Redireciona para a lista após exclusão
     }
 }
