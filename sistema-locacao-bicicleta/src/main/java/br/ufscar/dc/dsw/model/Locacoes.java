@@ -1,11 +1,15 @@
 package br.ufscar.dc.dsw.model;
+import java.sql.Date;
+
 
 public class Locacoes {
     private String cpf_cliente;
     private String cnpj_locadora;
-    private String data_inicio;
+    private Date data_inicio;
 
-    public Locacoes (String cpf_cliente, String cnpj_locadora, String data_inicio) {
+    public Locacoes() {}
+
+    public Locacoes (String cpf_cliente, String cnpj_locadora, Date data_inicio) {
         this.cpf_cliente = cpf_cliente;
         this.cnpj_locadora = cnpj_locadora;
         this.data_inicio = data_inicio;
@@ -20,7 +24,7 @@ public class Locacoes {
         return cnpj_locadora;
     }
 
-    public String getDataInicio() {
+    public Date getDataInicio() {
         return data_inicio;
     }
 
@@ -33,7 +37,7 @@ public class Locacoes {
         this.cnpj_locadora = cnpj_locadora;
     }
 
-    public void setDataInicio(String data_inicio) {
+    public void setDataInicio(Date data_inicio) {
         this.data_inicio = data_inicio;
     }
 }

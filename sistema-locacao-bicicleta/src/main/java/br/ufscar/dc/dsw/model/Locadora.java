@@ -7,6 +7,8 @@ public class Locadora {
     private String nome;
     private String cidade;
 
+    public Locadora() {}
+
     public Locadora (String email, String senha, String cnpj, String nome, String cidade) {
         this.email = email;
         this.senha = senha;
@@ -51,5 +53,8 @@ public class Locadora {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 }

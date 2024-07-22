@@ -1,4 +1,5 @@
-package main.java.br.ufscar.dc.dsw.model;
+package br.ufscar.dc.dsw.model;
+import java.sql.Date;
 
 public class Cliente {
     private String email;
@@ -7,9 +8,11 @@ public class Cliente {
     private String nome;
     private String telefone;
     private String sexo;
-    private String dataNascimento;
+    private Date dataNascimento;
 
-    public Cliente (String email, String senha, String cpf, String nome, String telefone, String sexo, String dataNascimento) {
+    public Cliente() {}
+
+    public Cliente (String email, String senha, String cpf, String nome, String telefone, String sexo, Date dataNascimento) {
         this.email = email;
         this.senha = senha;
         this.cpf = cpf;
@@ -44,7 +47,7 @@ public class Cliente {
         return sexo;
     }
 
-    public String getDataNascimento() {
+    public Date getDataNascimento() {
         return dataNascimento;
     }
 
@@ -73,7 +76,7 @@ public class Cliente {
         this.sexo = sexo;
     }   
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 }

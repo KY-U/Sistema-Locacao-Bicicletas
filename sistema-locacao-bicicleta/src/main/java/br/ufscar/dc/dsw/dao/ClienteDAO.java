@@ -1,10 +1,11 @@
-package main.java.br.ufscar.dc.dsw.dao;
+package br.ufscar.dc.dsw.dao;
 
 import br.ufscar.dc.dsw.model.Cliente;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -20,7 +21,7 @@ public class ClienteDAO {
             stmt.setString(4, cliente.getNome());
             stmt.setString(5, cliente.getTelefone());
             stmt.setString(6, cliente.getSexo());
-            stmt.setString(7, cliente.getDataNascimento());
+            stmt.setDate(7, cliente.getDataNascimento());
 
             stmt.executeUpdate();
             stmt.close();
@@ -41,7 +42,7 @@ public class ClienteDAO {
             cliente.setNome(rs.getString("nome"));
             cliente.setTelefone(rs.getString("telefone"));
             cliente.setSexo(rs.getString("sexo"));
-            cliente.setDataNascimento(rs.getString("data_nascimento"));
+            cliente.setDataNascimento(rs.getDate("data_nascimento"));
 
             stmt.close();
         } catch (SQLException e) {
@@ -49,20 +50,32 @@ public class ClienteDAO {
         }
     }
 
-    public void listaUsuario(Cliente cliente) throws SQLException {
-        String sql = "SELECT * FROM Clientes WHERE email = ?";
+    public List<Cliente> listaUsuario() throws SQLException {
+        List<Cliente> clientes = new ArrayList<>();
+        String sql = "SELECT * FROM Clientes";
         try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
-            stmt.setString(1, cliente.getEmail());
-            
-            stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setEmail(rs.getString("email"));
+                cliente.setSenha(rs.getString("senha"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setSexo(rs.getString("sexo"));
+                cliente.setDataNascimento(rs.getDate("data_nascimento"));
+
+                clientes.add(cliente);
+            }
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return clientes;
     }
 
     public void updateUsuario (Cliente cliente) throws SQLException {
-        String sql = "UPDATE Clientes SET senha = ?, cpf = ?, name = ?, telefone = ?, sexo = ?, data_nascimento = ? WHERE email = ?";
+        String sql = "UPDATE Clientes SET senha = ?, cpf = ?, nome = ?, telefone = ?, sexo = ?, data_nascimento = ? WHERE email = ?";
 
         try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
             stmt.setString(1, cliente.getSenha());
@@ -70,7 +83,7 @@ public class ClienteDAO {
             stmt.setString(3, cliente.getNome());
             stmt.setString(4, cliente.getTelefone());
             stmt.setString(5, cliente.getSexo());
-            stmt.setString(6, cliente.getDataNascimento());
+            stmt.setDate(6, cliente.getDataNascimento());
             stmt.setString(7, cliente.getEmail());
 
             stmt.executeUpdate();

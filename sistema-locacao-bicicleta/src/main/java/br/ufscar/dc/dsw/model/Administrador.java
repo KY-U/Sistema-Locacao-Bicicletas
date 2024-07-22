@@ -1,9 +1,10 @@
-package main.java.br.ufscar.dc.dsw.model;
+package br.ufscar.dc.dsw.model;
 
 public class Administrador {
     private String email;
     private String senha;
 
+    public Administrador() {}
 
     public Administrador(String email, String senha) {
         this.email = email;
