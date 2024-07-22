@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.controller;
 
 //dao
+import br.ufscar.dc.dsw.dao.Conexao;
 import br.ufscar.dc.dsw.dao.LocadoraDAO;
 
 //model
@@ -15,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.sql.DriverManager.getConnection;
 
 @WebServlet("/locadoras/*")
 public class LocadoraController extends HttpServlet {
@@ -55,6 +59,9 @@ public class LocadoraController extends HttpServlet {
                 default:
                     listLocadoras(request, response);
                     break;
+                case "/cidades":
+                    listLocadorasByCity(request, response);
+                    break;
             }
         } catch (Exception e) {
             throw new ServletException(e);
@@ -62,7 +69,7 @@ public class LocadoraController extends HttpServlet {
     }
 
     private void listLocadoras(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        List<Locadora> listaLocadoras = locadoraDAO.listaLocadora();
+        List<Locadora> listaLocadoras = LocadoraDAO.listaLocadora();
         request.setAttribute("listaLocadoras", listaLocadoras);
         request.getRequestDispatcher("/locadora-list.jsp").forward(request, response);
     }
@@ -114,5 +121,12 @@ public class LocadoraController extends HttpServlet {
         }
 
         response.sendRedirect("list"); // Redireciona para a lista após exclusão
+    }
+
+    private void listLocadorasByCity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        String cidade = request.getParameter("cidade");
+        List<Locadora> listaLocadoras = locadoraDAO.listLocadorasByCity(cidade);
+        request.setAttribute("listaLocadoras", listaLocadoras);
+        request.getRequestDispatcher("/locadora-list.jsp").forward(request, response);
     }
 }

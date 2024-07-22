@@ -13,7 +13,7 @@
         <li><a href="login.jsp">Login</a></li>
         <li><a href="clientes/list">Listar Clientes</a></li>
         <li><a href="locadoras/list">Listar Locadoras</a></li>
-        <li><a href="locadoras/cidades">Listar Locadoras por Cidade</a></li>
+        <li><a href="locadora-por-cidade.jsp">Listar Locadoras por Cidade</a></li>
     </ul>
 </body>
 </html>

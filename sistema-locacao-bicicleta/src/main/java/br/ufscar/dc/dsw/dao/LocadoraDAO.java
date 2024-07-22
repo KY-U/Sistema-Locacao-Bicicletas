@@ -107,4 +107,25 @@ public class LocadoraDAO {
         }
     }
 
+    public List<Locadora> listLocadorasByCity(String cidade) throws SQLException {
+        List<Locadora> listaLocadoras = new ArrayList<>();
+        String query = "SELECT * FROM locadora WHERE cidade = ?";
+
+        try (
+             PreparedStatement pstmt = Conexao.getConexao().prepareStatement(query)) {
+            pstmt.setString(1, cidade);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String email = rs.getString("email");
+                    String senha = rs.getString("senha");
+                    String cnpj = rs.getString("cnpj");
+                    String nome = rs.getString("nome");
+                    String cidadeDb = rs.getString("cidade");
+                    Locadora locadora = new Locadora(email, senha, cnpj, nome, cidadeDb);
+                    listaLocadoras.add(locadora);
+                }
+            }
+        }
+        return listaLocadoras;
+    }
 }
