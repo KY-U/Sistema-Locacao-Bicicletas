@@ -11,11 +11,9 @@
     
     <c:choose>
         <c:when test="${not empty usuario and not empty tipoUsuario}">
-            <!-- Buttons for creating, editing, and deleting locadoras -->
             <a href="locadoras/new">Nova Locadora</a>
         </c:when>
         <c:otherwise>
-            <!-- Optional: Message for users not logged in -->
             <p>Para criar, editar ou excluir locadoras, você precisa estar logado.</p>
         </c:otherwise>
     </c:choose>
@@ -41,7 +39,6 @@
                             <a href="locadoras/delete?email=${locadora.email}">Excluir</a>
                         </c:when>
                         <c:otherwise>
-                            <!-- Optional: Message indicating that actions are disabled -->
                             Ações não disponíveis
                         </c:otherwise>
                     </c:choose>
