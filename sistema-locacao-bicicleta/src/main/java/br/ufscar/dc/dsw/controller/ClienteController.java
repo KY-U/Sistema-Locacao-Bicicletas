@@ -59,11 +59,13 @@ public class ClienteController extends HttpServlet {
                     updateCliente(request, response);
                     break;
                 case "/list":
-                default:
                     listClientes(request, response);
                     break;
                 case "/dashboard":
                     showDashboard(request, response);
+                    break;
+                default:
+                    listClientes(request, response);
                     break;
             }
         } catch (Exception e) {
@@ -104,6 +106,7 @@ public class ClienteController extends HttpServlet {
     }
 
     private void updateCliente(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        String emailOriginal = request.getParameter("emailOriginal");
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
         String cpf = request.getParameter("cpf");
@@ -111,10 +114,10 @@ public class ClienteController extends HttpServlet {
         String telefone = request.getParameter("telefone");
         String sexo = request.getParameter("sexo");
         Date dataNascimento = Date.valueOf(request.getParameter("dataNascimento"));
-
+    
         Cliente cliente = new Cliente(email, senha, cpf, nome, telefone, sexo, dataNascimento);
-        clienteDAO.updateUsuario(cliente);
-        response.sendRedirect("list");
+        clienteDAO.updateCliente(emailOriginal, cliente);
+        response.sendRedirect("listClientes");
     }
 
     private void deleteCliente(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {

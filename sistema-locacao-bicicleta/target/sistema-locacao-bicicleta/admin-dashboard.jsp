@@ -20,11 +20,8 @@
     <!-- Menu de Navegação -->
     <h2>Menu</h2>
     <ul>
-        <li><a href="admin/clients/list">Listar Clientes</a></li>
-        <li><a href="admin/clients/new">Adicionar Novo Cliente</a></li>
-
-        <li><a href="admin/locadoras/list">Listar Locadoras</a></li>
-        <li><a href="admin/locadoras/new">Adicionar Nova Locadora</a></li>
+        <li><a href="/clientes/list">Clientes</a></li>
+        <li><a href="/locadoras/list">Locadoras</a></li>
     </ul>
 </body>
 </html>

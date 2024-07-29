@@ -8,12 +8,12 @@ import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class LocadoraDAO {
+public class LocadoraDAO extends Conexao {
 
     public void cadastrarLocadora(Locadora locadora) throws SQLException {
         String sql = "INSERT INTO Locadoras (email, senha, cnpj, nome, cidade) VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, locadora.getEmail());
             stmt.setString(2, locadora.getSenha());
             stmt.setString(3, locadora.getCnpj());
@@ -31,7 +31,7 @@ public class LocadoraDAO {
         Locadora locadora = null;
         String sql = "SELECT * FROM Locadoras WHERE email = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, email);
 
             ResultSet rs = stmt.executeQuery();
@@ -53,11 +53,11 @@ public class LocadoraDAO {
         return locadora;
     }
 
-    public static List<Locadora> listaLocadora() throws SQLException {
+    public List<Locadora> listaLocadora() throws SQLException {
         List<Locadora> locadoras = new ArrayList<>();
         String sql = "SELECT * FROM Locadoras";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -80,7 +80,7 @@ public class LocadoraDAO {
     public void updateLocadora (Locadora locadora) throws SQLException {
         String sql = "UPDATE Locadoras SET senha = ?, cnpj = ?, nome = ?, cidade = ? WHERE email = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, locadora.getSenha());
             stmt.setString(2, locadora.getCnpj());
             stmt.setString(3, locadora.getNome());
@@ -97,7 +97,7 @@ public class LocadoraDAO {
     public void deleteLocadora (Locadora locadora) throws SQLException {
         String sql = "DELETE FROM Locadoras WHERE email = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, locadora.getEmail());
 
             stmt.execute();
@@ -112,7 +112,7 @@ public class LocadoraDAO {
         String query = "SELECT * FROM locadora WHERE cidade = ?";
 
         try (
-             PreparedStatement pstmt = Conexao.getConexao().prepareStatement(query)) {
+             PreparedStatement pstmt = this.getConexao().prepareStatement(query)) {
             pstmt.setString(1, cidade);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {

@@ -9,12 +9,12 @@ import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class LocacoesDAO {
+public class LocacoesDAO extends Conexao {
 
     public void cadastrarLocacoes(Locacoes locacoes) throws SQLException {
         String sql = "INSERT INTO Locacoes (cpf_cliente, cnpj_locadora, data_horario) VALUES (?, ?, ?)";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, locacoes.getCpfCliente());
             stmt.setString(2, locacoes.getCnpjLocadora());
             stmt.setTimestamp(3, locacoes.getDataInicio());
@@ -28,7 +28,7 @@ public class LocacoesDAO {
 
     public void searchLocacoes(Locacoes locacoes) throws SQLException {
         String sql = "SELECT * FROM Locacoes WHERE cpf_cliente = ? AND cnpj_locadora = ?";
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, locacoes.getCpfCliente());
             stmt.setString(2, locacoes.getCnpjLocadora());
             
@@ -48,7 +48,7 @@ public class LocacoesDAO {
         List<Locacoes> locacoes = new ArrayList<>();
         String sql = "SELECT * FROM Locacoes";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -69,7 +69,7 @@ public class LocacoesDAO {
     public void updateLocacoes (Locacoes Locacoes) throws SQLException {
         String sql = "UPDATE Locacoes SET data_horario = ? WHERE cpf_cliente = ? AND cnpj_locadora = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setTimestamp(1, Locacoes.getDataInicio());
             stmt.setString(2, Locacoes.getCpfCliente());
             stmt.setString(3, Locacoes.getCnpjLocadora());
@@ -84,7 +84,7 @@ public class LocacoesDAO {
     public void deleteLocacoes(String cpfCliente, String cnpjLocadora) throws SQLException {
         String sql = "DELETE FROM Locacoes WHERE cpf_cliente = ? AND cnpj_locadora = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, cpfCliente);
             stmt.setString(2, cnpjLocadora);
 
@@ -98,7 +98,7 @@ public class LocacoesDAO {
         Locacoes locacao = null;
         String sql = "SELECT * FROM Locacoes WHERE id = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setInt(1, id);
 
             ResultSet rs = stmt.executeQuery();
@@ -123,7 +123,7 @@ public class LocacoesDAO {
     public void editLocacoes(int id, String cpfCliente, String cnpjLocadora, Timestamp dataHorario) throws SQLException {
         String sql = "UPDATE Locacoes SET cpf_cliente = ?, cnpj_locadora = ?, data_horario = ? WHERE id = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, cpfCliente);
             stmt.setString(2, cnpjLocadora);
             stmt.setTimestamp(3, dataHorario);
