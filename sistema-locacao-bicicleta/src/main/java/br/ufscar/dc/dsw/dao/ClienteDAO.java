@@ -1,7 +1,7 @@
 package br.ufscar.dc.dsw.dao;
 
 import br.ufscar.dc.dsw.model.Cliente;
-import br.ufscar.dc.dsw.dao.Conexao;
+//import br.ufscar.dc.dsw.dao.Conexao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,12 @@ import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ClienteDAO {
+public class ClienteDAO extends Conexao{
 
     public void cadastrarUsuario(Cliente cliente) throws SQLException {
         String sql = "INSERT INTO Clientes (email, senha, cpf, nome, telefone, sexo, data_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, cliente.getEmail());
             stmt.setString(2, cliente.getSenha());
             stmt.setString(3, cliente.getCpf());
@@ -34,7 +34,7 @@ public class ClienteDAO {
         String sql = "SELECT * FROM Clientes WHERE email = ?";
         Cliente cliente = null; // Inicializa o cliente como null
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, email);
 
             ResultSet rs = stmt.executeQuery();
@@ -63,7 +63,7 @@ public class ClienteDAO {
     public List<Cliente> listaUsuario() throws SQLException {
         List<Cliente> clientes = new ArrayList<>();
         String sql = "SELECT * FROM Clientes";
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Cliente cliente = new Cliente();
@@ -86,7 +86,7 @@ public class ClienteDAO {
 
     public void updateCliente(String emailOriginal, Cliente cliente) throws SQLException {
         String sql = "UPDATE clientes SET email = ?, senha = ?, cpf = ?, nome = ?, telefone = ?, sexo = ?, dataNascimento = ? WHERE email = ?";
-        try (PreparedStatement statement = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement statement = this.getConexao().prepareStatement(sql)) {
             statement.setString(1, cliente.getEmail());
             statement.setString(2, cliente.getSenha());
             statement.setString(3, cliente.getCpf());
@@ -102,7 +102,7 @@ public class ClienteDAO {
     public void deleteUsuario(String email) throws SQLException {
         String sql = "DELETE FROM Clientes WHERE email = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, email);
             stmt.executeUpdate(); // Use executeUpdate para operações de escrita
         } catch (SQLException e) {
@@ -115,7 +115,7 @@ public class ClienteDAO {
         Cliente cliente = null;
         String sql = "SELECT * FROM Clientes WHERE email = ?";
 
-        try (PreparedStatement stmt = Conexao.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
             stmt.setString(1, email);
 
             ResultSet rs = stmt.executeQuery();
