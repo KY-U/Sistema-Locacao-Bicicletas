@@ -39,7 +39,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("usuario", cliente);
                 session.setAttribute("tipoUsuario", "cliente");
-                response.sendRedirect("cliente/dashboard");
+                response.sendRedirect("clientes/dashboard");
             } else if (administrador != null && administrador.getSenha().equals(senha)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("usuario", administrador);

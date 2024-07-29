@@ -16,7 +16,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
-@WebServlet("/clientes")
+@WebServlet("/clientes/*")
 public class ClienteController extends HttpServlet {
 
     private ClienteDAO clienteDAO;
@@ -28,15 +28,15 @@ public class ClienteController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+        //HttpSession session = request.getSession();
+        //String tipoUsuario = (String) session.getAttribute("tipoUsuario");
 
-        if (!"admin".equals(tipoUsuario)) {
+        /*if (!"admin".equals(tipoUsuario)) {
             response.sendRedirect("login.jsp");
             return;
-        }
-
+        }*/
         String action = request.getPathInfo();
+        System.out.println("Action" + action);
         if (action == null) {
             action = "/";
         }
@@ -143,6 +143,6 @@ public class ClienteController extends HttpServlet {
         // Exemplo: List<Locacao> locacoes = locacaoDAO.listLocacoesByClient(email);
         // request.setAttribute("locacoes", locacoes);
 
-        request.getRequestDispatcher("/user-dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/cliente-dashboard.jsp").forward(request, response);
     }
 }
