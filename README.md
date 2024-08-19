@@ -1,3 +1,18 @@
+# Trabalho 2 - Desenvolvimento de Software para Web 1:
+
+*Caio Ueda Sampaio - RA : 802215*
+
+*Gabriel Pandolfi Correa dos Santos - RA : 769831*
+
+*Pedro Henrique Borges - RA : 804071*
+
+*Vitor Enzo Araujo Costa - RA : 802123* 
+
+
+# Aplicação Escolhida:
+
+A aplicação se trata de um sistema simples de gerenciamento de locação de biciletas, contendo implementação de CRUD para manipulação de clientes. 
+
 # Sistema-Locacao-Bicicletas
 
 O sistema deve possuir:
@@ -36,22 +51,26 @@ O sistema deve possuir:
 7. **R7: O sistema não deve permitir o cadastro de locações de um mesmo cliente ou de uma mesma locadora em um mesmo dia/horário.**
 8. **R8: Listagem de todas as locações de uma locadora** (requer login da locadora via e-mail + senha). Depois de fazer login, a locadora pode visualizar todas as suas locações gravadas.
 9. **R9: O sistema deve ser internacionalizado em pelo menos dois idiomas: português e outro de sua escolha.**
+10. **R10: O sistema deve validar (tamanho, formato, etc) todas as informações (campos nos formulários) cadastradas e/ou editadas.** 
+
 
 ## Tratamento de Erros
 
 O sistema deve tratar todos os erros possíveis (cadastros duplicados, problemas técnicos, etc.), mostrando uma página de erros amigável ao usuário e registrando o erro no console.
 
-## Arquitetura
+## Tecnologias Utilizadas:
 
-Modelo-Visão-Controlador (MVC)
+   **Lado Servidor:**
 
-## Tecnologias
+   - Spring MVC, Spring Data JPA, Spring Security & Thymeleaf
 
-**Lado Servidor:**
-- Servlet, JSP, JSTL & JDBC
+   **Lado Cliente:**
 
-**Lado Cliente:**
-- Javascript & CSS
+   - Javascript & CSS
+
+## Arquitetura 
+
+- Modelo-Visão-Controlador (MVC)
 
 ## Ambiente de Desenvolvimento
 
