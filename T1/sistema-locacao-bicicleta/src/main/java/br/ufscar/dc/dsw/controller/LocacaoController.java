@@ -4,6 +4,7 @@ import br.ufscar.dc.dsw.dao.LocacoesDAO;
 import br.ufscar.dc.dsw.model.Locacoes;
 import br.ufscar.dc.dsw.model.Locadora;
 import br.ufscar.dc.dsw.model.Cliente;
+import br.ufscar.dc.dsw.EmailService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +19,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.mail.internet.InternetAddress;
+import java.io.UnsupportedEncodingException;
+
 
 @WebServlet(urlPatterns = "/locacoes/*")
 public class LocacaoController extends HttpServlet {
@@ -86,6 +90,17 @@ public class LocacaoController extends HttpServlet {
         }
     }
 
+    private void sendMail(String subject, String body) {
+        try {
+            EmailService service = new EmailService();
+            InternetAddress from = new InternetAddress("sistemalocacao@gmail.com", "Bob", "UTF-8");
+            InternetAddress to = new InternetAddress("pedroborges.itapira@gmail.com", "Pedro", "UTF-8");
+            service.send(from, to, subject, body);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void insert(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         // Recupera o CPF do cliente (enviado como campo oculto no form)
         String clienteCPF = request.getParameter("cpf");
@@ -107,8 +122,10 @@ public class LocacaoController extends HttpServlet {
         // Chama o DAO para cadastrar a locação
         dao.cadastrarLocacoes(locacao);
 
+        sendMail("Locação Realizada", "Locação realizada pelo usuário de CPF: "+ clienteCPF + " Locadora de CNPJ: " + locadoraCnpj + ". Data: " + dataHora);
+
         // Redireciona de volta para o dashboard do cliente após inserir a locação
-        response.sendRedirect("cliente-dashboard.jsp");
+        response.sendRedirect(request.getContextPath()+"/locacoes/list/cliente");
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
