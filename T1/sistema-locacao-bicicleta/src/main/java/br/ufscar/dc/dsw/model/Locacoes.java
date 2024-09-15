@@ -7,35 +7,35 @@ import java.sql.Timestamp;
 
 public class Locacoes {
     private int id;
-    private String cpf_cliente;
-    private String cnpj_locadora;
-    private Timestamp data_inicio;
+    private String cpfCliente;
+    private String cnpjLocadora;
+    private Timestamp dataInicio;
 
     public Locacoes() {}
 
-    public Locacoes (String cpf_cliente, String cnpj_locadora, Timestamp data_inicio) {
-        this.cpf_cliente = cpf_cliente;
-        this.cnpj_locadora = cnpj_locadora;
-        this.data_inicio = data_inicio;
+    public Locacoes (String cpfCliente, String cnpjLocadora, Timestamp dataInicio) {
+        this.cpfCliente = cpfCliente;
+        this.cnpjLocadora = cnpjLocadora;
+        this.dataInicio = dataInicio;
     }
 
-    public Locacoes (int id, String cpf_cliente, String cnpj_locadora, Timestamp data_inicio) {
-        this.cpf_cliente = cpf_cliente;
-        this.cnpj_locadora = cnpj_locadora;
-        this.data_inicio = data_inicio;
+    public Locacoes (int id, String cpfCliente, String cnpjLocadora, Timestamp dataInicio) {
+        this.cpfCliente = cpfCliente;
+        this.cnpjLocadora = cnpjLocadora;
+        this.dataInicio = dataInicio;
     }
 
     //getters
     public String getCpfCliente() {
-        return cpf_cliente;
+        return cpfCliente;
     }
 
     public String getCnpjLocadora() {
-        return cnpj_locadora;
+        return cnpjLocadora;
     }
 
     public Timestamp getDataInicio() {
-        return data_inicio;
+        return dataInicio;
     }
 
     public int getId() {
@@ -45,16 +45,16 @@ public class Locacoes {
 
 
     //setters
-    public void setCpfCliente(String cpf_cliente) {
-        this.cpf_cliente = cpf_cliente;
+    public void setCpfCliente(String cpfCliente) {
+        this.cpfCliente = cpfCliente;
     }
 
-    public void setCnpjLocadora(String cnpj_locadora) {
-        this.cnpj_locadora = cnpj_locadora;
+    public void setCnpjLocadora(String cnpjLocadora) {
+        this.cnpjLocadora = cnpjLocadora;
     }
 
-    public void setDataInicio(Timestamp data_inicio) {
-        this.data_inicio = data_inicio;
+    public void setDataInicio(Timestamp dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
     public void setId(int id) {

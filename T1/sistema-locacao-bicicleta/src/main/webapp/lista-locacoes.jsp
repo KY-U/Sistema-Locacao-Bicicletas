@@ -22,31 +22,17 @@
             <table border="1">
                 <thead>
                     <tr>
-                        <!-- Alterar cabeçalhos de acordo com quem está logado -->
-                        <c:choose>
-                            <c:when test="${not empty usuario}">
-                                <th>Locadora</th>
-                            </c:when>
-                            <c:when test="${not empty locadora}">
-                                <th>Cliente</th>
-                            </c:when>
-                        </c:choose>
+                        <th>Cliente</th>
+                        <th>Locadora</th>
                         <th>Data e Hora</th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="locacao" items="${locacoes}">
                         <tr>
-                            <!-- Exibir a locadora ou cliente dependendo de quem está logado -->
-                            <c:choose>
-                                <c:when test="${not empty usuario}">
-                                    <td>${locacao.locadora}</td>
-                                </c:when>
-                                <c:when test="${not empty locadora}">
-                                    <td>${locacao.cliente}</td>
-                                </c:when>
-                            </c:choose>
-                            <td>${locacao.dataHora}</td>
+                            <td>${locacao.cpfCliente}</td>
+                            <td>${locacao.cnpjLocadora}</td>
+                            <td>${locacao.dataInicio}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -55,10 +41,10 @@
         <c:otherwise>
             <!-- Mensagem diferente dependendo de quem está logado -->
             <c:choose>
-                <c:when test="${not empty usuario}">
+                <c:when test="${empty usuario}">
                     <p>Você ainda não fez nenhuma locação.</p>
                 </c:when>
-                <c:when test="${not empty locadora}">
+                <c:when test="${empty locadora}">
                     <p>Esta locadora ainda não possui locações.</p>
                 </c:when>
             </c:choose>

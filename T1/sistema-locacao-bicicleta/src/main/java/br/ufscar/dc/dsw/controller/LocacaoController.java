@@ -3,6 +3,7 @@ package br.ufscar.dc.dsw.controller;
 import br.ufscar.dc.dsw.dao.LocacoesDAO;
 import br.ufscar.dc.dsw.model.Locacoes;
 import br.ufscar.dc.dsw.model.Locadora;
+import br.ufscar.dc.dsw.model.Cliente;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -133,7 +134,9 @@ public class LocacaoController extends HttpServlet {
 
     private void listaLocacoesByCPF(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         HttpSession session = request.getSession();
-        String cpfCliente = (String) session.getAttribute("cpf");
+        Cliente cliente = (Cliente) session.getAttribute("usuario");
+        String cpfCliente = cliente.getCpf();
+
 
         List<Locacoes> listaLocacoesByCPF = dao.listaLocacoesByCPF(cpfCliente);
         request.setAttribute("locacoes", listaLocacoesByCPF);
@@ -146,7 +149,6 @@ public class LocacaoController extends HttpServlet {
 
         Locadora locadora = (Locadora) session.getAttribute("locadora");
 
-        //essa linha que não sei fazer direito
         String cnpjLocadora = locadora.getCnpj();
 
         List<Locacoes> listaLocacoesByCNPJ = dao.listaLocacoesByCNPJ(cnpjLocadora);
