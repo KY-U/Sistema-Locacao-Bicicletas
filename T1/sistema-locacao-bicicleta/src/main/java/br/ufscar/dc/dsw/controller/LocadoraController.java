@@ -8,11 +8,13 @@ import br.ufscar.dc.dsw.dao.LocadoraDAO;
 import br.ufscar.dc.dsw.model.Locacoes;
 import br.ufscar.dc.dsw.model.Locadora;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -38,6 +40,9 @@ public class LocadoraController extends HttpServlet {
 
         try {
             switch (action) {
+                case "/dashboard":
+                    showDashboard(request, response);
+                    break;
                 case "/new":
                     showNewForm(request, response);
                     break;
@@ -126,5 +131,23 @@ public class LocadoraController extends HttpServlet {
         List<Locadora> listaLocadoras = locadoraDAO.listLocadorasByCity(cidade);
         request.setAttribute("listaLocadoras", listaLocadoras);
         request.getRequestDispatcher("/locadora-list.jsp").forward(request, response);
+    }
+
+    private void showDashboard(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+
+        // Verifica se a locadora está logada na sessão
+        Object locadora = session.getAttribute("locadora");
+
+        if (locadora != null) {
+            // Se a locadora estiver logada, redireciona para o dashboard da locadora
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/locadora-dashboard.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            // Se não estiver logada, redireciona para a página de login
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
     }
 }

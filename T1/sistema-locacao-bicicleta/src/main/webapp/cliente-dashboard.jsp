@@ -44,6 +44,6 @@
         </c:otherwise>
     </c:choose>
 
-    <p><a href = "clientes/list/cliente">Ver suas locações</a></p>
+    <p><a href = "locacoes/list/cliente">Ver suas locações</a></p>
 </body>
 </html>

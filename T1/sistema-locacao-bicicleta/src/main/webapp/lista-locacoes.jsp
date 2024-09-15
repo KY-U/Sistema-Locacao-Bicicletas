@@ -7,21 +7,48 @@
     <title>Suas Locações</title>
 </head>
 <body>
-    <h2>Locações de ${usuario.nome}</h2>
+
+    <c:choose>
+        <!-- Se o usuário estiver logado -->
+        <c:when test="${not empty usuario}">
+            <h2>Locações de ${usuario.nome}</h2>
+        </c:when>
+
+        <!-- Se a locadora estiver logada -->
+        <c:when test="${not empty locadora}">
+            <h2>Locações da Locadora ${locadora.nome}</h2>
+        </c:when>
+    </c:choose>
 
     <c:choose>
         <c:when test="${not empty locacoes}">
             <table border="1">
                 <thead>
                     <tr>
-                        <th>Locadora</th>
+                        <!-- Alterar cabeçalhos de acordo com quem está logado -->
+                        <c:choose>
+                            <c:when test="${not empty usuario}">
+                                <th>Locadora</th>
+                            </c:when>
+                            <c:when test="${not empty locadora}">
+                                <th>Cliente</th>
+                            </c:when>
+                        </c:choose>
                         <th>Data e Hora</th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="locacao" items="${locacoes}">
                         <tr>
-                            <td>${locacao.locadora}</td>
+                            <!-- Exibir a locadora ou cliente dependendo de quem está logado -->
+                            <c:choose>
+                                <c:when test="${not empty usuario}">
+                                    <td>${locacao.locadora}</td>
+                                </c:when>
+                                <c:when test="${not empty locadora}">
+                                    <td>${locacao.cliente}</td>
+                                </c:when>
+                            </c:choose>
                             <td>${locacao.dataHora}</td>
                         </tr>
                     </c:forEach>
@@ -29,11 +56,27 @@
             </table>
         </c:when>
         <c:otherwise>
-            <p>Você ainda não fez nenhuma locação.</p>
+            <!-- Mensagem diferente dependendo de quem está logado -->
+            <c:choose>
+                <c:when test="${not empty usuario}">
+                    <p>Você ainda não fez nenhuma locação.</p>
+                </c:when>
+                <c:when test="${not empty locadora}">
+                    <p>Esta locadora ainda não possui locações.</p>
+                </c:when>
+            </c:choose>
         </c:otherwise>
     </c:choose>
 
-    <p><a href="cliente-dashboard.jsp">Voltar ao Dashboard</a></p>
+    <!-- Alterar o link de retorno dependendo de quem está logado -->
+    <c:choose>
+        <c:when test="${not empty usuario}">
+            <p><a href="cliente-dashboard.jsp">Voltar ao Dashboard do Cliente</a></p>
+        </c:when>
+        <c:when test="${not empty locadora}">
+            <p><a href="locadora-dashboard.jsp">Voltar ao Dashboard da Locadora</a></p>
+        </c:when>
+    </c:choose>
+
 </body>
 </html>
-}

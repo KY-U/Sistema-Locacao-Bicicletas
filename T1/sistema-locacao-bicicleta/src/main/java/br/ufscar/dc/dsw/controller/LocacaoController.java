@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.dao.LocacoesDAO;
 import br.ufscar.dc.dsw.model.Locacoes;
+import br.ufscar.dc.dsw.model.Locadora;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,6 +37,9 @@ public class LocacaoController extends HttpServlet {
             switch (action) {
                 case "/list/cliente":
                     listaLocacoesByCPF(request, response);
+                    break;
+                case "/list/locadora":
+                    listaLocacoesByCNPJ(request, response);
                     break;
                 case "/new":
                     //showForm(request, response);
@@ -128,8 +132,23 @@ public class LocacaoController extends HttpServlet {
         String cpfCliente = (String) session.getAttribute("cpf");
 
         List<Locacoes> listaLocacoesByCPF = dao.listaLocacoesByCPF(cpfCliente);
-        request.setAttribute("listaLocacoesByCPF", listaLocacoesByCPF);
+        request.setAttribute("locacoes", listaLocacoesByCPF);
         RequestDispatcher dispatcher = request.getRequestDispatcher("lista-locacoes.jsp");
         dispatcher.forward(request, response);
     }
+
+    private void listaLocacoesByCNPJ(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+        HttpSession session = request.getSession();
+
+        Locadora locadora = (Locadora) session.getAttribute("locadora");
+
+        //essa linha que não sei fazer direito
+        String cnpjLocadora = locadora.getCnpj();
+
+        List<Locacoes> listaLocacoesByCNPJ = dao.listaLocacoesByCNPJ(cnpjLocadora);
+        request.setAttribute("locacoes", listaLocacoesByCNPJ);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("lista-locacoes.jsp");
+        dispatcher.forward(request, response);
+    }
+
 }

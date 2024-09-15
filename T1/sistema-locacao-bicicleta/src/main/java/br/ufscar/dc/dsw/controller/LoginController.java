@@ -2,8 +2,10 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.dao.ClienteDAO;
 import br.ufscar.dc.dsw.dao.AdminDAO;
+import br.ufscar.dc.dsw.dao.LocadoraDAO;
 import br.ufscar.dc.dsw.model.Cliente;
 import br.ufscar.dc.dsw.model.Administrador;
+import br.ufscar.dc.dsw.model.Locadora;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,11 +21,13 @@ public class LoginController extends HttpServlet {
 
     private ClienteDAO clienteDAO;
     private AdminDAO administradorDAO;
+    private LocadoraDAO locadoraDAO;
 
     @Override
     public void init() {
         clienteDAO = new ClienteDAO();
         administradorDAO = new AdminDAO();
+        locadoraDAO = new LocadoraDAO();
     }
 
     @Override
@@ -34,6 +38,7 @@ public class LoginController extends HttpServlet {
         try {
             Cliente cliente = clienteDAO.getCliente(email);
             Administrador administrador = administradorDAO.getAdmin(email);
+            Locadora locadora = locadoraDAO.searchLocadora(email);
 
             if (cliente != null && cliente.getSenha().equals(senha)) {
                 HttpSession session = request.getSession();
@@ -45,6 +50,11 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("usuario", administrador);
                 session.setAttribute("tipoUsuario", "admin");
                 response.sendRedirect("admin/dashboard");
+            } else if (locadora != null && locadora.getSenha().equals(senha)){
+                HttpSession session = request.getSession();
+                session.setAttribute("locadora", locadora);
+                session.setAttribute("tipoUsuario", "locadora");
+                response.sendRedirect("locadora/dashboard");
             } else {
                 response.sendRedirect("login.jsp");
             }

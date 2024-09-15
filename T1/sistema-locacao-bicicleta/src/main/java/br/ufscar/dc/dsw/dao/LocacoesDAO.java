@@ -158,4 +158,27 @@ public class LocacoesDAO extends Conexao {
         }
         return locacoes;
     }
+
+    public List<Locacoes> listaLocacoesByCNPJ(String cnpj) throws SQLException {
+        List<Locacoes> locacoes = new ArrayList<>();
+        String sql = "SELECT * FROM Locacoes WHERE cnpj_locadora = ?";
+
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {
+            stmt.setString(1, cnpj);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Locacoes locacao = new Locacoes();
+                locacao.setCpfCliente(rs.getString("cpf_cliente"));
+                locacao.setCnpjLocadora(rs.getString("cnpj_locadora"));
+                locacao.setDataInicio(rs.getTimestamp("data_horario"));
+
+                locacoes.add(locacao);
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return locacoes;
+    }
 }
