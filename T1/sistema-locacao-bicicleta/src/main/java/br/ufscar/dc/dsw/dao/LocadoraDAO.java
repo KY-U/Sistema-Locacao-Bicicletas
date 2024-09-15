@@ -109,7 +109,7 @@ public class LocadoraDAO extends Conexao {
 
     public List<Locadora> listLocadorasByCity(String cidade) throws SQLException {
         List<Locadora> listaLocadoras = new ArrayList<>();
-        String query = "SELECT * FROM locadora WHERE cidade = ?";
+        String query = "SELECT * FROM locadoras WHERE cidade = ?";
 
         try (
              PreparedStatement pstmt = this.getConexao().prepareStatement(query)) {

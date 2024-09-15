@@ -30,7 +30,7 @@ public class ClienteController extends HttpServlet {
         clienteDAO = new ClienteDAO();
         locadoraDAO = new LocadoraDAO();
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //HttpSession session = request.getSession();
