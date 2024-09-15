@@ -23,19 +23,21 @@ public class EmailService {
 		try {
 
 			Properties prop = new Properties();
+			prop.put("mail.smtp.auth", true);
+			prop.put("mail.smtp.starttls.enable", "true");
 			prop.put("mail.smtp.host", "sandbox.smtp.mailtrap.io");
 			prop.put("mail.smtp.port", "2525");
-			prop.put("mail.smtp.auth", "true");
+			prop.put("mail.smtp.ssl.trust", "sandbox.smtp.mailtrap.io");
 
-			final String username = "6106b9066275b1";
-			final String password = "4ddbef80160365";
+				final String username = "6106b9066275b1";
+				final String password = "4ddbef80160365";
 
-			Session session = Session.getInstance(prop, new Authenticator() {
-				@Override
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(username, password);
-				}
-			});
+				Session session = Session.getInstance(prop, new Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(username, password);
+					}
+				});
 
 			Message message = new MimeMessage(session);
 			message.setFrom(from);
@@ -57,7 +59,7 @@ public class EmailService {
 			message.setContent(multipart);
 			Transport.send(message);
 			
-			System.out.println("Mensagem enviada com sucesso!");
+			System.out.println("Mensagem enviada com sucesso para o email: " + to);
 			
 		} catch (Exception e) {
 			System.out.println("Mensagem não enviada!");
