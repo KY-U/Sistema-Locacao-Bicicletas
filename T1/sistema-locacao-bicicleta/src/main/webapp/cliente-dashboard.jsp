@@ -43,5 +43,7 @@
             <p>Para realizar uma locação, você precisa estar logado.</p>
         </c:otherwise>
     </c:choose>
+
+    <p><a href = "clientes/list/cliente">Ver suas locações</a></p>
 </body>
 </html>

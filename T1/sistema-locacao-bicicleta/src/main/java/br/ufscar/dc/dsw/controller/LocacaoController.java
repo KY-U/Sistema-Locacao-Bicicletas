@@ -33,6 +33,9 @@ public class LocacaoController extends HttpServlet {
 
         try {
             switch (action) {
+                case "/list/cliente":
+                    listaLocacoesByCPF(request, response);
+                    break;
                 case "/new":
                     //showForm(request, response);
                     insert(request, response);
@@ -116,5 +119,16 @@ public class LocacaoController extends HttpServlet {
         String cnpjLocadora = request.getParameter("cnpjLocadora");
         dao.deleteLocacoes(cpfCliente, cnpjLocadora);
         response.sendRedirect("list");
+    }
+
+
+    private void listaLocacoesByCPF(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        HttpSession session = request.getSession();
+        String cpfCliente = (String) session.getAttribute("cpf");
+
+        List<Locacoes> listaLocacoesByCPF = dao.listaLocacoesByCPF(cpfCliente);
+        request.setAttribute("listaLocacoesByCPF", listaLocacoesByCPF)
+        RequestDispatcher dispatcher = request.getRequestDispatcher("lista-locacoes.jsp");
+        dispatcher.forward(request, response);
     }
 }
