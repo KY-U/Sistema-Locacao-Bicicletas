@@ -128,7 +128,7 @@ public class LocacaoController extends HttpServlet {
         String cpfCliente = (String) session.getAttribute("cpf");
 
         List<Locacoes> listaLocacoesByCPF = dao.listaLocacoesByCPF(cpfCliente);
-        request.setAttribute("listaLocacoesByCPF", listaLocacoesByCPF)
+        request.setAttribute("listaLocacoesByCPF", listaLocacoesByCPF);
         RequestDispatcher dispatcher = request.getRequestDispatcher("lista-locacoes.jsp");
         dispatcher.forward(request, response);
     }
