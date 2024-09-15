@@ -25,8 +25,8 @@
                     </c:forEach>
                 </select>
 
-                <label for="data">Data da locação:</label>
-                <input type="date" id="data" name="data" required>
+                 <label for="data">Data e hora da locação:</label>
+                 <input type="datetime-local" id="data" name="dataHora" required>
 
                 <!-- Campo oculto para enviar o CPF do usuário -->
                 <input type="hidden" name="cpf" value="${usuario.cpf}">

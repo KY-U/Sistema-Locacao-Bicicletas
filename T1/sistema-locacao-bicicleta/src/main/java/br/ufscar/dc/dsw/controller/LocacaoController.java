@@ -85,7 +85,7 @@ public class LocacaoController extends HttpServlet {
 
         // Recupera a data da locação e converte para Timestamp
         String dataLocacaoStr = request.getParameter("data");
-        //Timestamp dataHora = Timestamp.valueOf(dataLocacaoStr + " 00:00:00");
+        Timestamp dataHora = Timestamp.valueOf(dataLocacaoStr + ":00");
 
         // Cria um objeto Locacoes e preenche com os dados
         Locacoes locacao = new Locacoes();
