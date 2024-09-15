@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title><c:choose>
-            <c:when test="${not empty locadora}">
+            <c:when test="${locadora != null}">
                 Editar Locadora
             </c:when>
             <c:otherwise>
@@ -16,7 +16,7 @@
 <body>
 
 <h1><c:choose>
-        <c:when test="${not empty locadora}">
+        <c:when test="${locadora != null}">
             Editar Locadora
         </c:when>
         <c:otherwise>
@@ -25,32 +25,31 @@
     </c:choose></h1>
 
 <form action="<c:choose>
-        <c:when test="${not empty locadora}">
+        <c:when test="${locadora != null}">
             ${pageContext.request.contextPath}/locadoras/update
         </c:when>
         <c:otherwise>
             ${pageContext.request.contextPath}/locadoras/insert
         </c:otherwise>
     </c:choose>" method="get">
-    <input type="hidden" name="email" value="${not empty locadora ? locadora.email : ''}"/>
-
+    
     <label for="email">Email:</label>
-    <input type="text" id="email" name="email" value="${not empty locadora ? locadora.email : ''}" required/>
+    <input type="text" id="email" name="email" value="${locadora != null ? locadora.email : ''}" required/>
 
     <label for="senha">Senha:</label>
-    <input type="password" id="senha" name="senha" value="${not empty locadora ? locadora.senha : ''}" required/>
+    <input type="password" id="senha" name="senha" value="${locadora != null ? locadora.senha : ''}" required/>
 
     <label for="cnpj">CNPJ:</label>
-    <input type="text" id="cnpj" name="cnpj" value="${not empty locadora ? locadora.cnpj : ''}" required/>
+    <input type="text" id="cnpj" name="cnpj" value="${locadora != null ? locadora.cnpj : ''}" required/>
 
     <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" value="${not empty locadora ? locadora.nome : ''}" required/>
+    <input type="text" id="nome" name="nome" value="${locadora != null ? locadora.nome : ''}" required/>
 
     <label for="cidade">Cidade:</label>
-    <input type="text" id="cidade" name="cidade" value="${not empty locadora ? locadora.cidade : ''}" required/>
+    <input type="text" id="cidade" name="cidade" value="${locadora != null ? locadora.cidade : ''}" required/>
 
     <input type="submit" value="<c:choose>
-        <c:when test="${not empty locadora}">
+        <c:when test="${locadora != null}">
             Atualizar
         </c:when>
         <c:otherwise>

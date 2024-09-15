@@ -8,7 +8,7 @@
     <title>Dashboard do Cliente</title>
 </head>
 <body>
-    <h2>Bem-vindo, ${usuario}!</h2>
+    <h2>Bem-vindo, ${usuario.nome}!</h2>
     
     <!-- Checar se usuário está logado -->
     <c:choose>
@@ -16,7 +16,7 @@
             <h3>Locação de Bicicleta</h3>
 
             <!-- Form para cadastrar uma locação -->
-            <form action="locacoes/new" method="post">
+            <form action="${pageContext.request.contextPath}/locacoes/new" method="get">
                 <label for="locadora">Escolha uma locadora:</label>
                 <select id="locadora" name="cnpj">
                     <!-- Exibir lista de locadoras, enviando o CNPJ no value -->
@@ -24,7 +24,7 @@
                         <option value="${locadora.cnpj}">${locadora.nome}</option>
                     </c:forEach>
                 </select>
-
+                <br>
                  <label for="data">Data e hora da locação:</label>
                  <input type="datetime-local" id="data" name="dataHora" required>
 
@@ -44,6 +44,6 @@
         </c:otherwise>
     </c:choose>
 
-    <p><a href = "locacoes/list/cliente">Ver suas locações</a></p>
+    <p><a href="${pageContext.request.contextPath}/locacoes/list/cliente">Ver suas locações</a></p>
 </body>
 </html>

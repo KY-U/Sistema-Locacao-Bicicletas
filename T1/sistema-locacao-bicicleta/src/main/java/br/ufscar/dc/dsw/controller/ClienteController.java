@@ -19,7 +19,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
-@WebServlet("/clientes/*")
+@WebServlet(urlPatterns = "/clientes/*")
 public class ClienteController extends HttpServlet {
 
     private ClienteDAO clienteDAO;
@@ -85,7 +85,6 @@ public class ClienteController extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("cliente", new Cliente());
         request.getRequestDispatcher("/cliente-form.jsp").forward(request, response);
     }
 
@@ -133,10 +132,10 @@ public class ClienteController extends HttpServlet {
 
     private void showDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("userEmail");
+        String email = (String) session.getAttribute("email");
 
         if (email == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath()+"/login.jsp");
             return;
         }
 

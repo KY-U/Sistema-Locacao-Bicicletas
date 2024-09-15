@@ -85,7 +85,7 @@ public class ClienteDAO extends Conexao{
     }
 
     public void updateCliente(String emailOriginal, Cliente cliente) throws SQLException {
-        String sql = "UPDATE clientes SET email = ?, senha = ?, cpf = ?, nome = ?, telefone = ?, sexo = ?, dataNascimento = ? WHERE email = ?";
+        String sql = "UPDATE clientes SET email = ?, senha = ?, cpf = ?, nome = ?, telefone = ?, sexo = ?, data_nascimento = ? WHERE email = ?";
         try (PreparedStatement statement = this.getConexao().prepareStatement(sql)) {
             statement.setString(1, cliente.getEmail());
             statement.setString(2, cliente.getSenha());

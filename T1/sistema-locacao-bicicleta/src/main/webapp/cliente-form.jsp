@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title><c:choose><c:when test="${cliente != null}">Editar Cliente</c:when><c:otherwise>Novo Cliente</c:otherwise></c:choose></title>
+    <title>
+        <c:choose>
+            <c:when test="${cliente != null}">Editar Cliente</c:when>
+            <c:otherwise>Novo Cliente</c:otherwise>
+        </c:choose>
+    </title>
 </head>
 <body>
     <h2><c:choose><c:when test="${cliente != null}">Editar Cliente</c:when><c:otherwise>Novo Cliente</c:otherwise></c:choose></h2>
-    <form action="<c:choose><c:when test="${cliente != null}">clientes/update</c:when><c:otherwise>clientes/insert</c:otherwise></c:choose>" method="get">
+    <form action="<c:choose><c:when test="${cliente != null}">${pageContext.request.contextPath}/clientes/update</c:when><c:otherwise>${pageContext.request.contextPath}/clientes/insert</c:otherwise></c:choose>" method="get">
         <c:if test="${cliente != null}">
             <input type="hidden" name="emailOriginal" value="${cliente.email}">
         </c:if>

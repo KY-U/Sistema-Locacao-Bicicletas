@@ -78,7 +78,6 @@ public class LocadoraController extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("locadora", new Locadora());
         request.getRequestDispatcher("/locadora-form.jsp").forward(request, response);
     }
 

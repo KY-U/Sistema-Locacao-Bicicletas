@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet(urlPatterns = "/locacoes/*")
 public class LocacaoController extends HttpServlet {
@@ -63,8 +65,7 @@ public class LocacaoController extends HttpServlet {
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         List<Locacoes> listaLocacoes = dao.listaLocacoes();
         request.setAttribute("listaLocacoes", listaLocacoes);
-        //path n existe
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/locacao-list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/lista-locacoes.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -73,13 +74,13 @@ public class LocacaoController extends HttpServlet {
 
         if (action.equals("/new")) {
             //path n existe
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/locacao-form.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/locacao-form.jsp");
             dispatcher.forward(request, response);
         } else {
             int id = Integer.parseInt(request.getParameter("id"));
             Locacoes locacao = dao.getLocacaoById(id);
             request.setAttribute("locacao", locacao);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/locacao-form.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/locacao-form.jsp");
             dispatcher.forward(request, response);
         }
     }
@@ -93,7 +94,8 @@ public class LocacaoController extends HttpServlet {
 
         // Recupera a data da locação e converte para Timestamp
         String dataLocacaoStr = request.getParameter("dataHora");
-        Timestamp dataHora = Timestamp.valueOf(dataLocacaoStr + ":00");
+        dataLocacaoStr = dataLocacaoStr.replace("T", " ") + ":00";
+        Timestamp dataHora = Timestamp.valueOf(dataLocacaoStr);
 
         // Cria um objeto Locacoes e preenche com os dados
         Locacoes locacao = new Locacoes();
@@ -112,7 +114,9 @@ public class LocacaoController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String clienteEmail = request.getParameter("clienteEmail");
         String locadoraCnpj = request.getParameter("locadoraCnpj");
-        Timestamp dataHora = Timestamp.valueOf(request.getParameter("dataHora"));
+        String dataLocacaoStr = request.getParameter("dataHora");
+        dataLocacaoStr = dataLocacaoStr.replace("T", " ") + ":00";
+        Timestamp dataHora = Timestamp.valueOf(dataLocacaoStr);
 
         Locacoes locacao = new Locacoes(id, clienteEmail, locadoraCnpj, dataHora);
         dao.updateLocacoes(locacao);

@@ -11,7 +11,7 @@
     
     <c:choose>
         <c:when test="${not empty usuario and not empty tipoUsuario}">
-            <a href="locadoras/new">Nova Locadora</a>
+            <a href="${pageContext.request.contextPath}/locadoras/new">Nova Locadora</a>
         </c:when>
         <c:otherwise>
             <p>Para criar, editar ou excluir locadoras, você precisa estar logado.</p>
@@ -35,8 +35,8 @@
                 <td>
                     <c:choose>
                         <c:when test="${not empty usuario and not empty tipoUsuario}">
-                            <a href="locadoras/edit?email=${locadora.email}">Editar</a>
-                            <a href="locadoras/delete?email=${locadora.email}">Excluir</a>
+                            <a href="${pageContext.request.contextPath}/locadoras/edit?email=${locadora.email}">Editar</a>
+                            <a href="${pageContext.request.contextPath}/locadoras/delete?email=${locadora.email}">Excluir</a>
                         </c:when>
                         <c:otherwise>
                             Ações não disponíveis

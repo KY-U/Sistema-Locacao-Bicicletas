@@ -43,6 +43,7 @@ public class LoginController extends HttpServlet {
             if (cliente != null && cliente.getSenha().equals(senha)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("usuario", cliente);
+                session.setAttribute("email", cliente.getEmail());
                 session.setAttribute("tipoUsuario", "cliente");
                 response.sendRedirect("clientes/dashboard");
             } else if (administrador != null && administrador.getSenha().equals(senha)) {

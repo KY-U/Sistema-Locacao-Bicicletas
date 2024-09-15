@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,15 @@
 </head>
 <body>
     <h2>Clientes</h2>
-    <a href="clientes/new">Novo Cliente</a>
+    <c:choose>
+        <c:when test="${not empty usuario and not empty tipoUsuario}">
+            <a href="${pageContext.request.contextPath}/clientes/new">Novo cliente</a>
+        </c:when>
+        <c:otherwise>
+            <p>Para criar, editar ou excluir clientes, você precisa estar logado.</p>
+        </c:otherwise>
+    </c:choose>
+
     <table border="1">
         <tr>
             <th>Email</th>
@@ -21,14 +30,15 @@
                 <td>${cliente.cpf}</td>
                 <td>${cliente.nome}</td>
                 <td>
-                    <form action="clientes/edit" method="get" style="display:inline;">
-                        <input type="hidden" name="email" value="${cliente.email}">
-                        <input type="submit" value="Editar">
-                    </form>
-                    <form action="clientes/delete" method="get" style="display:inline;">
-                        <input type="hidden" name="email" value="${cliente.email}">
-                        <input type="submit" value="Excluir">
-                    </form>
+                    <c:choose>
+                        <c:when test="${not empty usuario and not empty tipoUsuario}">
+                            <a href="${pageContext.request.contextPath}/clientes/edit?email=${cliente.email}">Editar</a>
+                            <a href="${pageContext.request.contextPath}/clientes/delete?email=${cliente.email}">Excluir</a>
+                        </c:when>
+                        <c:otherwise>
+                            Ações não disponíveis
+                        </c:otherwise>
+                    </c:choose>
                 </td>
             </tr>
         </c:forEach>

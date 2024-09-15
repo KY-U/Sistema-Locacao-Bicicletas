@@ -41,7 +41,7 @@ public class AdminController extends HttpServlet {
         String tipoUsuario = (String) session.getAttribute("tipoUsuario");
 
         if (!"admin".equals(tipoUsuario)) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath()+"/login.jsp");
             return;
         }
 
@@ -62,7 +62,7 @@ public class AdminController extends HttpServlet {
                     listLocadoras(request, response);
                     break;
                 default:
-                    response.sendRedirect("index.jsp");
+                    showDashboard(request, response);
                     break;
             }
         } catch (Exception e) {
@@ -76,13 +76,17 @@ public class AdminController extends HttpServlet {
 
     private void listClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         List<Cliente> listaClientes = clienteDAO.listaUsuario();
+        HttpSession session = request.getSession();
+        session.setAttribute("tipoUsuario", "admin");
         request.setAttribute("listaClientes", listaClientes);
-        request.getRequestDispatcher("/admin-clientes-list.jsp").forward(request, response);
+        request.getRequestDispatcher("/cliente-list.jsp").forward(request, response);
     }
 
     private void listLocadoras(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         List<Locadora> listaLocadoras = locadoraDAO.listaLocadora();
+        HttpSession session = request.getSession();
+        session.setAttribute("tipoUsuario", "admin");
         request.setAttribute("listaLocadoras", listaLocadoras);
-        request.getRequestDispatcher("/admin-locadoras-list.jsp").forward(request, response);
+        request.getRequestDispatcher("/locadora-list.jsp").forward(request, response);
     }
 }

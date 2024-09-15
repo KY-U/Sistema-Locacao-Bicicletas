@@ -19,8 +19,8 @@
     <!-- Menu de Navegação -->
     <h2>Menu</h2>
     <ul>
-        <li><a href="/clientes/list">Clientes</a></li>
-        <li><a href="/locadoras/list">Locadoras</a></li>
+        <li><a href="clientes">Clientes</a></li>
+        <li><a href="locadoras">Locadoras</a></li>
     </ul>
 </body>
 </html>

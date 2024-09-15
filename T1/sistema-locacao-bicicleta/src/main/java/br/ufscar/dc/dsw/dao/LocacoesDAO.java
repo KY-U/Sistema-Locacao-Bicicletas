@@ -9,6 +9,7 @@ import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 public class LocacoesDAO extends Conexao {
 
     public void cadastrarLocacoes(Locacoes locacoes) throws SQLException {
