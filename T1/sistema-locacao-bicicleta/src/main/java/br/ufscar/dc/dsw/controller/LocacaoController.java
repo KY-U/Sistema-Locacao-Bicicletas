@@ -34,7 +34,8 @@ public class LocacaoController extends HttpServlet {
         try {
             switch (action) {
                 case "/new":
-                    showForm(request, response);
+                    //showForm(request, response);
+                    insert(request, response);
                     break;
                 case "/edit":
                     showForm(request, response);
@@ -54,13 +55,16 @@ public class LocacaoController extends HttpServlet {
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         List<Locacoes> listaLocacoes = dao.listaLocacoes();
         request.setAttribute("listaLocacoes", listaLocacoes);
+        //path n existe
         RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/locacao-list.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String action = request.getPathInfo();
+
         if (action.equals("/new")) {
+            //path n existe
             RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/locacao-form.jsp");
             dispatcher.forward(request, response);
         } else {
@@ -73,13 +77,27 @@ public class LocacaoController extends HttpServlet {
     }
 
     private void insert(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        String clienteEmail = request.getParameter("clienteEmail");
-        String locadoraCnpj = request.getParameter("locadoraCnpj");
-        Timestamp dataHora = Timestamp.valueOf(request.getParameter("dataHora"));
+        // Recupera o CPF do cliente (enviado como campo oculto no form)
+        String clienteCPF = request.getParameter("cpf");
 
-        Locacoes locacao = new Locacoes(clienteEmail, locadoraCnpj, dataHora);
+        // Recupera o CNPJ da locadora selecionada
+        String locadoraCnpj = request.getParameter("cnpj");
+
+        // Recupera a data da locação e converte para Timestamp
+        String dataLocacaoStr = request.getParameter("data");
+        //Timestamp dataHora = Timestamp.valueOf(dataLocacaoStr + " 00:00:00");
+
+        // Cria um objeto Locacoes e preenche com os dados
+        Locacoes locacao = new Locacoes();
+        locacao.setCpfCliente(clienteCPF);
+        locacao.setCnpjLocadora(locadoraCnpj);
+        locacao.setDataInicio(dataHora);
+
+        // Chama o DAO para cadastrar a locação
         dao.cadastrarLocacoes(locacao);
-        response.sendRedirect("list");
+
+        // Redireciona de volta para o dashboard do cliente após inserir a locação
+        response.sendRedirect("cliente-dashboard.jsp");
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {

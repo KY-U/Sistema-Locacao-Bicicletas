@@ -10,27 +10,31 @@
 <body>
     <h2>Bem-vindo, ${usuario}!</h2>
     
-    <!-- Check if the user is logged in -->
+    <!-- Checar se usuário está logado -->
     <c:choose>
         <c:when test="${not empty usuario and not empty tipoUsuario}">
             <h3>Locação de Bicicleta</h3>
-            
-            <!-- Form to register a rental -->
-            <form action="rent" method="post">
+
+            <!-- Form para cadastrar uma locação -->
+            <form action="locacoes/new" method="post">
                 <label for="locadora">Escolha uma locadora:</label>
-                <select id="locadora" name="locadora">
+                <select id="locadora" name="cnpj">
+                    <!-- Exibir lista de locadoras, enviando o CNPJ no value -->
                     <c:forEach var="locadora" items="${listaLocadoras}">
-                        <option value="${locadora.email}">${locadora.nome}</option>
+                        <option value="${locadora.cnpj}">${locadora.nome}</option>
                     </c:forEach>
                 </select>
-                
+
                 <label for="data">Data da locação:</label>
                 <input type="date" id="data" name="data" required>
-                
-                <input type="submit" value="Cadastrar Locação">
+
+                <!-- Campo oculto para enviar o CPF do usuário -->
+                <input type="hidden" name="cpf" value="${usuario.cpf}">
+
+                <input type="submit" value="Confirmar Locação">
             </form>
             
-            <!-- Optional: Display any success or error messages -->
+            <!-- Mensagem de erro/sucesso -->
             <c:if test="${not empty mensagem}">
                 <p>${mensagem}</p>
             </c:if>

@@ -2,6 +2,9 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.dao.ClienteDAO;
 import br.ufscar.dc.dsw.model.Cliente;
+import br.ufscar.dc.dsw.model.Locadora;
+
+import br.ufscar.dc.dsw.dao.LocadoraDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +23,12 @@ import java.util.List;
 public class ClienteController extends HttpServlet {
 
     private ClienteDAO clienteDAO;
+    private LocadoraDAO locadoraDAO;
 
     @Override
     public void init() {
         clienteDAO = new ClienteDAO();
+        locadoraDAO = new LocadoraDAO();
     }
 
     @Override
@@ -135,9 +140,14 @@ public class ClienteController extends HttpServlet {
             return;
         }
 
-        // Carregar informações do cliente e locações
+        // Carregar informações do cliente
         Cliente cliente = clienteDAO.searchUsuario(email);
         request.setAttribute("cliente", cliente);
+
+        //carrega locadoras
+        List<Locadora> listaLocadoras = locadoraDAO.listaLocadora();
+        request.setAttribute("listaLocadoras", listaLocadoras);
+
 
         // Locações do cliente podem ser obtidas de um DAO específico para locações
         // Exemplo: List<Locacao> locacoes = locacaoDAO.listLocacoesByClient(email);
