@@ -55,7 +55,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("locadora", locadora);
                 session.setAttribute("tipoUsuario", "locadora");
-                response.sendRedirect("locadoras/dashboard");
+                response.sendRedirect("locadora/dashboard");
             } else {
                 response.sendRedirect("login.jsp");
             }
