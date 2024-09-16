@@ -17,7 +17,6 @@
         <li><a href="login.jsp"><fmt:message key="menu.login" /></a></li>
         <li><a href="locadoras/list"><fmt:message key="menu.listLocadoras" /></a></li>
         <li><a href="locadora-por-cidade.jsp"><fmt:message key="menu.listLocadorasByCity" /></a></li>
-        <li><a href="clientes/list"><fmt:message key="menu.listClients" /></a></li>
     </ul>
 
     <form action="locale" method="get">
