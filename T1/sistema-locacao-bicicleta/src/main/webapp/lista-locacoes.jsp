@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
+
+<fmt:bundle basename = "messages">
 <head>
     <meta charset="UTF-8">
-    <title>Suas Locações</title>
+    <title><fmt:message key="rentals.page.title" /></title>
     <script>
         function showAlert(message) {
             if (message) {
@@ -17,10 +20,10 @@
 
     <c:choose>
         <c:when test="${not empty locadora}">
-            <h2>Locações da Locadora ${locadora.nome}</h2>
+            <h2><fmt:message key="rentals.locadora.header"><fmt:param value="${locadora.nome}" /></fmt:message></h2>
         </c:when>
         <c:otherwise>
-            <h2>Locações de ${usuario.nome}</h2>
+            <h2><fmt:message key="rentals.usuario.header"><fmt:param value="${usuario.nome}" /></fmt:message></h2>
         </c:otherwise>
     </c:choose>
 
@@ -49,10 +52,10 @@
             <!-- Mensagem diferente dependendo de quem está logado -->
             <c:choose>
                 <c:when test="${not empty usuario}">
-                    <p>Você ainda não fez nenhuma locação.</p>
+                    <p><fmt:message key="rentals.no.rentals.client" /></p>
                 </c:when>
                 <c:when test="${not empty locadora}">
-                    <p>Esta locadora ainda não possui locações.</p>
+                    <p><fmt:message key="rentals.no.rentals.locadora" /></p>
                 </c:when>
             </c:choose>
         </c:otherwise>
@@ -61,12 +64,14 @@
     <!-- Alterar o link de retorno dependendo de quem está logado -->
     <c:choose>
         <c:when test="${not empty usuario}">
-            <p><a href="${pageContext.request.contextPath}/clientes/dashboard">Voltar ao Dashboard do Cliente</a></p>
+            <p><a href="${pageContext.request.contextPath}/clientes/dashboard"><fmt:message key="rentals.back.to.client.dashboard" /></a></p>
         </c:when>
         <c:when test="${not empty locadora}">
-            <p><a href="${pageContext.request.contextPath}/locadoras/dashboard">Voltar ao Dashboard da Locadora</a></p>
+            <p><a href="${pageContext.request.contextPath}/locadoras/dashboard"><fmt:message key="rentals.back.to.locadora.dashboard" /></a></p>
         </c:when>
     </c:choose>
 
 </body>
+</fmt:bundle>
 </html>
+

@@ -1,19 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
+<fmt:bundle basename = "messages">
 <head>
     <meta charset="UTF-8">
-    <title>Clientes</title>
+    <title><fmt:message key="clients.page.title" /></title>
 </head>
 <body>
-    <h2>Clientes</h2>
+    <h2><fmt:message key="clients.page.title" /></h2>
     <c:choose>
         <c:when test="${not empty usuario and not empty tipoUsuario}">
-            <a href="${pageContext.request.contextPath}/clientes/new">Novo cliente</a>
+            <a href="${pageContext.request.contextPath}/clientes/new"><fmt:message key="clients.new" /></a>
         </c:when>
         <c:otherwise>
-            <p>Para criar, editar ou excluir clientes, você precisa estar logado.</p>
+            <p><fmt:message key="clients.not.logged" /></p>
         </c:otherwise>
     </c:choose>
 
@@ -32,11 +34,11 @@
                 <td>
                     <c:choose>
                         <c:when test="${not empty usuario and not empty tipoUsuario}">
-                            <a href="${pageContext.request.contextPath}/clientes/edit?email=${cliente.email}">Editar</a>
-                            <a href="${pageContext.request.contextPath}/clientes/delete?email=${cliente.email}">Excluir</a>
+                            <a href="${pageContext.request.contextPath}/clientes/edit?email=${cliente.email}"><fmt:message key="clients.edit" /></a>
+                            <a href="${pageContext.request.contextPath}/clientes/delete?email=${cliente.email}"><fmt:message key="clients.delete" /></a>
                         </c:when>
                         <c:otherwise>
-                            Ações não disponíveis
+                            <fmt:message key="clients.actions.unavailable" />
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -44,4 +46,6 @@
         </c:forEach>
     </table>
 </body>
+</fmt:bundle>
 </html>
+
