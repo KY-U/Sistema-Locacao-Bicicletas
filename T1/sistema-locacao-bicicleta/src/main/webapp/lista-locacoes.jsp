@@ -41,10 +41,10 @@
         <c:otherwise>
             <!-- Mensagem diferente dependendo de quem está logado -->
             <c:choose>
-                <c:when test="${empty usuario}">
+                <c:when test="${not empty usuario}">
                     <p>Você ainda não fez nenhuma locação.</p>
                 </c:when>
-                <c:when test="${empty locadora}">
+                <c:when test="${not empty locadora}">
                     <p>Esta locadora ainda não possui locações.</p>
                 </c:when>
             </c:choose>
