@@ -12,7 +12,27 @@ import java.sql.SQLException;
 
 public class LocacoesDAO extends Conexao {
 
+    public boolean existeLocacaoConflitante(Locacoes locacoes) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Locacoes WHERE cpf_cliente = ? AND cnpj_locadora = ? AND data_horario = ?";
+
+        try (PreparedStatement stmt = getConexao().prepareStatement(sql)) {
+            stmt.setString(1, locacoes.getCpfCliente());
+            stmt.setString(2, locacoes.getCnpjLocadora());
+            stmt.setTimestamp(3, locacoes.getDataInicio());
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public void cadastrarLocacoes(Locacoes locacoes) throws SQLException {
+        if (existeLocacaoConflitante(locacoes)) {
+            throw new SQLException("Já existe uma locação para o mesmo cliente e locadora no mesmo horário.");
+        }
         String sql = "INSERT INTO Locacoes (cpf_cliente, cnpj_locadora, data_horario) VALUES (?, ?, ?)";
 
         try (PreparedStatement stmt = this.getConexao().prepareStatement(sql)) {

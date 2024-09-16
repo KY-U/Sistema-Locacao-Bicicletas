@@ -5,8 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Suas Locações</title>
+    <script>
+        function showAlert(message) {
+            if (message) {
+                alert(message);
+            }
+        }
+    </script>
 </head>
-<body>
+<body onload="showAlert('${sessionScope.mensagem}')">
 
     <c:choose>
         <c:when test="${not empty locadora}">

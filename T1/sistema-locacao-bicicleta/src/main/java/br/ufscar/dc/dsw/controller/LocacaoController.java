@@ -119,13 +119,28 @@ public class LocacaoController extends HttpServlet {
         locacao.setCnpjLocadora(locadoraCnpj);
         locacao.setDataInicio(dataHora);
 
-        // Chama o DAO para cadastrar a locação
-        dao.cadastrarLocacoes(locacao);
+        try {
+            // Verifica se já existe uma locação conflitante
+            if (dao.existeLocacaoConflitante(locacao)) {
+                // Define uma mensagem de erro e redireciona
+                request.getSession().setAttribute("mensagem", "Já existe uma locação para o mesmo cliente e locadora no mesmo horário.");
+                response.sendRedirect(request.getContextPath() + "/locacoes/list/cliente");
+                return;
+            }
 
-        sendMail("Locação Realizada", "Locação realizada pelo usuário de CPF: "+ clienteCPF + " Locadora de CNPJ: " + locadoraCnpj + ". Data: " + dataHora);
+            // Chama o DAO para cadastrar a locação
+            dao.cadastrarLocacoes(locacao);
 
-        // Redireciona de volta para o dashboard do cliente após inserir a locação
-        response.sendRedirect(request.getContextPath()+"/locacoes/list/cliente");
+            // Envia o e-mail de confirmação
+            sendMail("Locação Realizada", "Locação realizada pelo usuário de CPF: "+ clienteCPF + " Locadora de CNPJ: " + locadoraCnpj + ". Data: " + dataHora);
+
+            // Redireciona de volta para a lista do cliente após inserir a locação
+            response.sendRedirect(request.getContextPath() + "/locacoes/list/cliente");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("mensagem", "Erro ao cadastrar a locação.");
+            response.sendRedirect(request.getContextPath() + "/locacoes/list/cliente");
+        }
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
