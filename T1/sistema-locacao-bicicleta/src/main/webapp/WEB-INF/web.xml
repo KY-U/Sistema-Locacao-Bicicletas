@@ -25,4 +25,21 @@
         <servlet-class>br.ufscar.dc.dsw.controller.LocacaoController</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>LocaleServlet</servlet-name>
+        <servlet-class>br.ufscar.dc.dsw.LocaleServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LocaleServlet</servlet-name>
+        <url-pattern>/locale</url-pattern>
+    </servlet-mapping>
+
+    <resource-ref>
+        <description>Resource Bundle for 'messages'</description>
+        <res-ref-name>messages</res-ref-name>
+        <res-type>javax.servlet.ServletContext</res-type>
+        <res-auth>APPLICATION</res-auth>
+    </resource-ref>
+
 </web-app>
